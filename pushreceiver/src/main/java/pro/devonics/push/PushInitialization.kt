@@ -1,6 +1,9 @@
 package pro.devonics.push
 
+import android.content.Context
 import android.os.Build
+import android.provider.Telephony
+import android.telephony.TelephonyManager
 import android.util.Log
 import pro.devonics.push.network.RetrofitBuilder
 import pro.devonics.push.model.PushInstance
@@ -57,7 +60,7 @@ class PushInitialization {
 
                                 if (registrationId != null) {
                                     if (regId == null) {
-                                        val pushUser = setPushUser(registrationId, appId)
+                                        val pushUser = setPushUser(registrationId, appId, appContext)
                                         val subscribe = service.createPush(pushUser)
                                         Log.d(TAG, "complete: pushUser = $pushUser")
                                         Log.d(TAG, "complete: subscribe = $subscribe")
@@ -100,7 +103,7 @@ class PushInitialization {
             return isValid
         }
 
-        private fun setPushUser(registrationId: String, appId: String): PushUser {
+        private fun setPushUser(registrationId: String, appId: String, appContext: Context): PushUser {
 
             //Get timezone
             val tz = TimeZone.getDefault()//.toZoneId()
@@ -113,9 +116,13 @@ class PushInitialization {
             //Log.d(TAG, "complete: lang = $lang")
 
             //Get country
-            val country = Locale("", locale.country).country
+            val telephonyManager = appContext
+                .getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+            val country = telephonyManager.simCountryIso.uppercase(Locale.getDefault())
+            //val country = Locale("", locale.country).country
                 //.getDisplayCountry(Locale("EN"))
             //Log.d(TAG, "complete: country = $country")
+
 
             //Get device info
             val deviceInfo = getDeviceData()
