@@ -12,16 +12,31 @@ and:
     dependencies {
         implementation platform('com.google.firebase:firebase-bom:28.3.1')
         implementation 'com.google.firebase:firebase-messaging-ktx'
-        implementation 'com.github.Voice77777:PushLibrary:1.0.11'
+        implementation 'com.github.PushDevonics:push-devonics-android:latest version'
     }
+    
+Add permissions to AndroidManifest:
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
 MainActivity in onCreate():
 
     AppContextKeeper.setContext(applicationContext)
-    PushInitialization.run()
+    PushInitialization.run("appId")
     startTime()
     
     // If you want add tag type String
-    inputTags(key, value)
+    inputTags("key", "value")
 MainActivity in onDestroy():
 
     sendTimeStatistic()
+
+If you want use custom icon add it to AndroidManifest in application tag:
+
+    <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/your_icon" />
+    <meta-data 
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/your_color" />
