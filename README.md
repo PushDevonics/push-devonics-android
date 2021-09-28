@@ -12,7 +12,7 @@ and:
     dependencies {
         implementation platform('com.google.firebase:firebase-bom:28.3.1')
         implementation 'com.google.firebase:firebase-messaging-ktx'
-        implementation 'com.github.PushDevonics:push-devonics-android:1.0.1'
+        implementation 'com.github.PushDevonics:push-devonics-android:latest version'
     }
 MainActivity in onCreate():
 
@@ -21,7 +21,7 @@ MainActivity in onCreate():
     startTime()
     
     // If you want add tag type String
-    inputTags(key, value)
+    inputTags("key", "value")
 MainActivity in onDestroy():
 
     sendTimeStatistic()
