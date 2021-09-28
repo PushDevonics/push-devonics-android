@@ -25,3 +25,11 @@ MainActivity in onCreate():
 MainActivity in onDestroy():
 
     sendTimeStatistic()
+
+If you want use custom icon:
+
+    <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/your_icon" />
+        <meta-data android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/your_color" />
