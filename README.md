@@ -14,6 +14,12 @@ and:
         implementation 'com.google.firebase:firebase-messaging-ktx'
         implementation 'com.github.PushDevonics:push-devonics-android:latest version'
     }
+    
+Add permissions to AndroidManifest:
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
 MainActivity in onCreate():
 
     AppContextKeeper.setContext(applicationContext)
