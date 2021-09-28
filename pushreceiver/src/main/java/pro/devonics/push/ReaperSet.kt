@@ -1,6 +1,5 @@
 package pro.devonics.push
 
-//const val MY_APP_ID = "31cfe899-246a-471d-8a97-342a4435bcc3"
 const val BASE_URL = "https://push.a-faust.cf/"
 
 const val VIEW = "api/app/{app_id}/view"
