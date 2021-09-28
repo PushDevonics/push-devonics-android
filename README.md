@@ -12,12 +12,12 @@ and:
     dependencies {
         implementation platform('com.google.firebase:firebase-bom:28.3.1')
         implementation 'com.google.firebase:firebase-messaging-ktx'
-        implementation 'com.github.Voice77777:PushLibrary:1.0.11'
+        implementation 'com.github.PushDevonics:push-devonics-android:1.0.1'
     }
 MainActivity in onCreate():
 
     AppContextKeeper.setContext(applicationContext)
-    PushInitialization.run()
+    PushInitialization.run("appId")
     startTime()
     
     // If you want add tag type String
