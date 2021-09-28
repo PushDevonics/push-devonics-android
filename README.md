@@ -26,7 +26,7 @@ MainActivity in onDestroy():
 
     sendTimeStatistic()
 
-If you want use custom icon add it to AndroidManifest in <application>:
+If you want use custom icon add it to AndroidManifest in application tag:
 
     <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
