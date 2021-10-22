@@ -9,7 +9,7 @@ import java.util.*
 
 private const val TAG = "Repository"
 
-class Repository {
+class DataHelper {
 
     companion object {
 
@@ -48,6 +48,14 @@ class Repository {
             val date = Date()
             startTime = date.time
             Log.d(TAG, "onCreate: startTime = $startTime")
+        }
+
+        fun createTransition() {
+            //val service = ApiHelper(RetrofitBuilder.apiService)
+            //val pushCache = PushCache()
+            //val regId = cache.getRegistrationIdFromPref()
+            val transition = registrationId?.let { service.createTransition(it) }
+            Log.d(TAG, "createTransition: = $transition")
         }
     }
 }

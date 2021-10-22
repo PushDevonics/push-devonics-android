@@ -1,11 +1,8 @@
 package pro.devonics.push.network
 
-import pro.devonics.push.model.TimeData
-import pro.devonics.push.model.PushInstance
-import pro.devonics.push.model.PushUser
-import pro.devonics.push.model.Sender
-import pro.devonics.push.model.Tag
 import pro.devonics.push.*
+import pro.devonics.push.model.*
+import pro.devonics.push.model.Tag
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -34,4 +31,7 @@ interface ApiService {
     // Отсылаем продолжительность работы
     @POST(DURATION)
     fun sendDuration(@Body timeData: TimeData): Call<TimeData>
+
+    @GET(TRANSITION)
+    fun createTransition(@Path("registration_id") registrationId: String): Call<Internal>
 }

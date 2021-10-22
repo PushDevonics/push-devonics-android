@@ -1,11 +1,7 @@
 package pro.devonics.push.network
 
 import android.util.Log
-import pro.devonics.push.model.TimeData
-import pro.devonics.push.model.PushInstance
-import pro.devonics.push.model.PushUser
-import pro.devonics.push.model.Sender
-import pro.devonics.push.model.Tag
+import pro.devonics.push.model.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -136,6 +132,27 @@ class ApiHelper(private val apiService: ApiService) {
                     Log.d(TAG, "sendTimeStatistic.onFailure: Throwable = $t")
                 }
 
+            }
+        )
+        return null
+    }
+
+    fun createTransition(registrationId: String): Internal? {
+        val call = apiService.createTransition(registrationId)
+        Log.d(TAG, "createTransition: registrationId = $registrationId")
+        call.enqueue(
+            object : Callback<Internal> {
+                override fun onResponse(call: Call<Internal>, response: Response<Internal>) {
+                    /*Log.d(TAG, "createTransition.onResponse: call = $call")
+                    Log.d(TAG, "createTransition.onResponse: response.dody = ${response.body()}")
+                    val internalId = response.body()
+                    Log.d(TAG, "createTransition.onResponse: $internalId")*/
+                }
+
+                override fun onFailure(call: Call<Internal>, t: Throwable) {
+                    //Log.d(TAG, "createTransition.onFailure: call = $call")
+                    Log.d(TAG, "createTransition.onFailure: Throwable = $t")
+                }
             }
         )
         return null
