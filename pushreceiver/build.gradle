@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'com.github.PushDevonics'
-version = '1.0'
+version = '1.0.1'
 
 android {
     compileSdk 31
@@ -69,7 +69,7 @@ afterEvaluate {
                 from components.release
                 groupId = 'com.github.PushDevonics'
                 artifactId = 'push-devonics-android'
-                version = '1.0'
+                version = '1.0.1'
             }
         }
     }
