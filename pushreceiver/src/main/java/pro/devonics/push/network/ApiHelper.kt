@@ -53,17 +53,17 @@ class ApiHelper(private val apiService: ApiService) {
         return null
     }
 
-    fun createSession(registrationId: String): String? {
+    fun createSession(registrationId: String): Internal? {
         val call = apiService.createSession(registrationId)
 
         call.enqueue(
-            object : Callback<String> {
-                override fun onResponse(call: Call<String>, response: Response<String>) {
+            object : Callback<Internal> {
+                override fun onResponse(call: Call<Internal>, response: Response<Internal>) {
                     Log.d(TAG, "createSession.onResponse: call = $call")
                     Log.d(TAG, "createSession.onResponse: response = $response")
                 }
 
-                override fun onFailure(call: Call<String>, t: Throwable) {
+                override fun onFailure(call: Call<Internal>, t: Throwable) {
                     Log.d(TAG, "createSession.onFailure: call = $call")
                     Log.d(TAG, "createSession.onFailure: t = $t")
                 }

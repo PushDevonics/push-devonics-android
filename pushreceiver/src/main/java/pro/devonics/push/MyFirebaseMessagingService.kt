@@ -49,19 +49,13 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         Log.d(TAG, "onMessageReceived")
 
-        //val intent = Intent(this, MainActivity::class.java)
-        //val intent = Intent()
         val packageName = applicationContext.packageName
 
         Log.d(TAG, "onMessageReceived packageName: $packageName")
         val intent = packageManager.getLaunchIntentForPackage(packageName)
-        //intent.component = ComponentName(this, MainActivity::class.java)
-        //intent.setClassName(this, "$packageName.MainActivity")
+
         intent?.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
         intent?.putExtra("command", "transition")
-        /*intent.apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        }*/
 
         val pendingIntent = PendingIntent.getActivity(
             this, 0, intent, 0)//PendingIntent.FLAG_ONE_SHOT)

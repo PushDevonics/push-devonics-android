@@ -19,12 +19,13 @@ interface ApiService {
 
     //3 Отсылаем каждый раз при открытии приложения
     @GET(SESSION)
-    fun createSession(@Path("registration_id") registrationId: String): Call<String>//: Call<PushUser>
+    fun createSession(@Path("registration_id") registrationId: String): Call<Internal>//: Call<PushUser>
 
     //4 Отсылаем при обновление fcm токена
     @PUT(UPDATE_USER)
     fun updateUser(@Body pushInstance: PushInstance): Call<PushInstance>//Response<Status>
 
+    // Отсылаем свои теги
     @POST(SAVE_TAG)
     fun saveCustomParams(@Body tag: Tag): Call<Tag>
 
@@ -32,6 +33,7 @@ interface ApiService {
     @POST(DURATION)
     fun sendDuration(@Body timeData: TimeData): Call<TimeData>
 
+    // Отсылаем переход по пушу
     @GET(TRANSITION)
     fun createTransition(@Path("registration_id") registrationId: String): Call<Internal>
 }
