@@ -27,18 +27,18 @@ class PushRegistratorFCM : PushRegistratorAbstractGoogle() {
 
     override fun getToken(senderId: String): String {
         initFirebaseApp(senderId)
-        Log.d(TAG, "getToken: senderId = $senderId")
+        //Log.d(TAG, "getToken: senderId = $senderId")
 
         try {
             return getTokenWithClassFirebaseMessaging()
         } catch (e: NoClassDefFoundError) {
-            Log.d(TAG, "getToken: NoClassDefFoundError = $e")
+            //Log.d(TAG, "getToken: NoClassDefFoundError = $e")
             Log.e(
                 "Info",
                 "FirebaseMessaging.getToken not found, attempting to use FirebaseInstanceId.getToken"
             )
         } catch (e: NoSuchMethodError) {
-            Log.d(TAG, "getToken: NoSuchMethodError = $e")
+            //Log.d(TAG, "getToken: NoSuchMethodError = $e")
             Log.e(
                 "Info",
                 "FirebaseMessaging.getToken not found, attempting to use FirebaseInstanceId.getToken"
@@ -58,7 +58,7 @@ class PushRegistratorFCM : PushRegistratorAbstractGoogle() {
             val getTokenMethod =
                 instanceId.javaClass.getMethod("getToken", String::class.java, String::class.java)
             val token = getTokenMethod.invoke(instanceId, senderId, "FCM")
-            Log.d(TAG, "getTokenWithClassFirebaseInstanceId: token = $token")
+            //Log.d(TAG, "getTokenWithClassFirebaseInstanceId: token = $token")
             return token as String
         } catch (e: ClassNotFoundException) {
             exception = e
@@ -80,7 +80,7 @@ class PushRegistratorFCM : PushRegistratorAbstractGoogle() {
         val fcmInstance = firebaseApp?.get(FirebaseMessaging::class.java)
         val tokenTask = fcmInstance?.token as Task<String>
 
-        Log.d(TAG, "getTokenWithClassFirebaseMessaging: tokenTask = $tokenTask")
+        //Log.d(TAG, "getTokenWithClassFirebaseMessaging: tokenTask = $tokenTask")
         return Tasks.await(tokenTask)
     }
 

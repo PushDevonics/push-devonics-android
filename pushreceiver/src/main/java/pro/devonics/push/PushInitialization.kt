@@ -25,7 +25,7 @@ class PushInitialization {
             val thread = Thread {
 
                 val sender = service.getSenderData(appId)
-                Log.d(TAG, "run: senderId = ${sender?.getSenderId()}")
+                //Log.d(TAG, "run: senderId = ${sender?.getSenderId()}")
                 val pushRegistratorFCM = PushRegistratorFCM()
                 if (sender != null) {
                     pushRegistratorFCM.registerForPush(
@@ -33,8 +33,8 @@ class PushInitialization {
                         sender.getSenderId(),
                         object : PushRegistrator.RegisteredHandler {
                             override fun complete(registrationId: String?, status: Int) {
-                                Log.d(TAG, "complete: registrationId = $registrationId}")
-                                Log.d(TAG, "complete: status = $status}")
+                                //Log.d(TAG, "complete: registrationId = $registrationId}")
+                                //Log.d(TAG, "complete: status = $status}")
                                 val pushCache = PushCache()
                                 val regId = pushCache.getRegistrationIdFromPref()
 
@@ -49,12 +49,11 @@ class PushInitialization {
                                         }
                                         val session = service.createSession(registrationId)
                                         pushCache.saveRegistrationIdPref(registrationId)
-                                        Log.d(TAG, "complete2: session = $session")
-                                        Log.d(TAG, "complete2: pushInstance = $pushInstance")
-                                        Log.d(TAG, "complete2: updatedRegistrationsId = $updatedRegistrationsId")
+                                        //Log.d(TAG, "complete2: pushInstance = $pushInstance")
+                                        //Log.d(TAG, "complete2: updatedRegistrationsId = $updatedRegistrationsId")
                                     }
 
-                                    Log.d(TAG, "complete: !regId.equals(registrationId)")
+                                    //Log.d(TAG, "complete: !regId.equals(registrationId)")
                                     //Log.d(TAG, "complete: registrationId = $registrationId")
                                 }
 
@@ -62,12 +61,12 @@ class PushInitialization {
                                     if (regId == null) {
                                         val pushUser = setPushUser(registrationId, appId, appContext)
                                         val subscribe = service.createPush(pushUser)
-                                        Log.d(TAG, "complete: pushUser = $pushUser")
-                                        Log.d(TAG, "complete: subscribe = $subscribe")
+                                        //Log.d(TAG, "complete: pushUser = $pushUser")
+                                        //Log.d(TAG, "complete: subscribe = $subscribe")
                                     }
 
                                     val session = service.createSession(registrationId)
-                                    Log.d(TAG, "complete: session = $session")
+                                    //Log.d(TAG, "complete: session = $session")
                                 }
                                 if (status > 0) {
                                     pushCache.saveRegistrationStatus(status)

@@ -25,7 +25,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("LongLogTag")
     override fun handleIntent(intent: Intent) {
-        Log.d(TAG, "handleIntent = $intent")
+        //Log.d(TAG, "handleIntent = $intent")
         try {
             if (intent.extras != null) {
                 val builder = RemoteMessage.Builder("MyFirebaseMessagingService")
@@ -33,25 +33,25 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                     builder.addData(key!!, intent.extras!![key].toString())
                 }
                 onMessageReceived(builder.build())
-                Log.d(TAG, "handleIntent 1")
+                //Log.d(TAG, "handleIntent 1")
             } else {
                 super.handleIntent(intent)
-                Log.d(TAG, "handleIntent 2")
+                //Log.d(TAG, "handleIntent 2")
             }
         } catch (e: Exception) {
             super.handleIntent(intent)//if app close
-            Log.d(TAG, "handleIntent e: $e")
+            //Log.d(TAG, "handleIntent e: $e")
         }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("LongLogTag", "UnspecifiedImmutableFlag", "ServiceCast")
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
-        Log.d(TAG, "onMessageReceived")
+        //Log.d(TAG, "onMessageReceived")
 
         val packageName = applicationContext.packageName
 
-        Log.d(TAG, "onMessageReceived packageName: $packageName")
+        //Log.d(TAG, "onMessageReceived packageName: $packageName")
         val intent = packageManager.getLaunchIntentForPackage(packageName)
 
         intent?.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
@@ -96,16 +96,13 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             notificationManager.notify(0, builder.build())
         } else {
             val builder = NotificationCompat.Builder(this, channelId)
-                //.setSmallIcon(R.mipmap.ic_launcher)
                 .setSmallIcon(android.R.drawable.sym_def_app_icon)
                 .setContentTitle(remoteMessage.notification?.title)
                 .setContentText(remoteMessage.notification?.body)
                 //.setContentText("http://developer.alexanderklimov.ru/android/")
-                //.setLargeIcon(smallIcon)
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setAutoCancel(true)
                 .setChannelId(channelId)
-                //.setStyle(NotificationCompat.BigPictureStyle().bigPicture(largeIcon).bigLargeIcon(smallIcon))
                 .setContentIntent(pendingIntent)
 
             val notificationManager =
@@ -133,6 +130,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     @SuppressLint("LongLogTag")
     override fun onNewToken(p0: String) {
         super.onNewToken(p0)
-        Log.d(TAG, "################ onNewToken##################: $p0")
+        //Log.d(TAG, "################ onNewToken##################: $p0")
     }
 }

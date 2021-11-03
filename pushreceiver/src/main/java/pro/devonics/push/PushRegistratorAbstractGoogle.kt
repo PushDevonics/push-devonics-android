@@ -26,18 +26,18 @@ abstract class PushRegistratorAbstractGoogle : PushRegistrator {
 
         if (isValidProjectNumber(senderId, callback))
             internalRegisterForPush(senderId)
-        Log.d(TAG, "registerForPush: senderId = $senderId")
+        //Log.d(TAG, "registerForPush: senderId = $senderId")
     }
 
     private fun internalRegisterForPush(senderId: String) {
         try {
             registerInBackground(senderId)
-            Log.d(TAG, "internalRegisterForPush: senderId = $senderId")
+            //Log.d(TAG, "internalRegisterForPush: senderId = $senderId")
         } catch (t: Throwable) {
-            Log.d(TAG, "registerForPush: Throwable = $t")
-            Log.e("Error", "Could not register with ${getProviderName()}"
+            //Log.d(TAG, "registerForPush: Throwable = $t")
+            /*Log.e("Error", "Could not register with ${getProviderName()}"
                 //+ getProviderName() +
-                + " due to an issue with your AndroidManifest.xml or with 'Google Play services'.  $t")
+                + " due to an issue with your AndroidManifest.xml or with 'Google Play services'.  $t")*/
             registeredHandler?.complete(null, UserState.PUSH_STATUS_FIREBASE_FCM_INIT_ERROR)
         }
     }
@@ -66,26 +66,7 @@ abstract class PushRegistratorAbstractGoogle : PushRegistrator {
         try {
             val registrationId = getToken(senderId)
 
-            //Save registrationId to preferences
-            /*if (registrationId.isNotEmpty()) {
-                val cache = PushCache()
-                //cache.saveRegistrationIdPref(registrationId)
-                if (registrationId == cache.getOldRegistrationIdFromPref()) {
-
-                    cache.saveOldRegistrationIdPref(registrationId)
-                    cache.saveRegistrationIdPref(registrationId)
-                    Log.d(TAG, "attemptRegistration: registrationId == cache.getRegistrationIdFromPref()$registrationId")
-                } else {
-                    cache.saveRegistrationIdPref(registrationId)
-                    Log.d(TAG, "attemptRegistration: else = $registrationId")
-                }
-                //cache.saveRegistrationIdPref(registrationId)
-                Log.d(TAG, "saveRegistrationIdPref!!!!!!!!!!!!!")
-
-            }*/
-            //Log.d(TAG, "attemptRegistration: senderId = $senderId")
-            //Log.d(TAG, "attemptRegistration: registrationId = $registrationId")
-            Log.e("Error", "Device registered, push token = $registrationId")
+            Log.d(TAG, "Device registered, push token = $registrationId")
             registeredHandler?.complete(registrationId, UserState.PUSH_STATUS_SUBSCRIBED)
             return true
         } catch (e: IOException) {
@@ -117,7 +98,6 @@ abstract class PushRegistratorAbstractGoogle : PushRegistrator {
         } catch (t: Throwable) {
             Log.e("Error",
                 "Unknown error getting ${getProviderName()} Token $t")
-            Log.d(TAG, "attemptRegistration: Throwable = $t")
             registeredHandler?.complete(
                 null, UserState.PUSH_STATUS_FIREBASE_FCM_ERROR_MISC_EXCEPTION
             )

@@ -19,7 +19,7 @@ class PushCache {
 
     fun saveOldRegistrationIdPref(old_reg_id: String) {
         ed?.putString(OLD_REGISTRATION_ID, old_reg_id)
-        Log.d(TAG, "aveOldRegistrationIdPref: old_reg_id = $old_reg_id")
+        //Log.d(TAG, "aveOldRegistrationIdPref: old_reg_id = $old_reg_id")
         ed?.apply()
     }
 
@@ -31,7 +31,7 @@ class PushCache {
 
     fun saveRegistrationIdPref(reg_id: String) {
         ed?.putString(REGISTRATION_ID, reg_id)
-        Log.d(TAG, "saveRegistrationIdPref: reg_id = $reg_id")
+        //Log.d(TAG, "saveRegistrationIdPref: reg_id = $reg_id")
         ed?.apply()
     }
 
@@ -43,7 +43,7 @@ class PushCache {
 
     fun saveRegistrationStatus(status: Int) {
         ed?.putInt(REGISTRATION_STATUS, status)
-        Log.d(TAG, "saveRegistrationStatus: status = $status")
+        //Log.d(TAG, "saveRegistrationStatus: status = $status")
         ed?.apply()
     }
 

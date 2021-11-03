@@ -14,7 +14,7 @@ object RetrofitBuilder {
         }
 
     private val okhttpClient = OkHttpClient().newBuilder()
-        .addInterceptor(loggingInterceptor)
+        //.addInterceptor(loggingInterceptor)
         .build()
 
     private fun getRetrofit(): Retrofit {
