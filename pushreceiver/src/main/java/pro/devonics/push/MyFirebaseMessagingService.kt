@@ -71,6 +71,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 .notification?.imageUrl?.let { getBitmapFromUrl(it.toString()) }
 
             val builder = NotificationCompat.Builder(this, channelId)
+                //.setSmallIcon(R.mipmap.ic_launcher)
                 .setSmallIcon(android.R.drawable.sym_def_app_icon)
                 .setContentTitle(remoteMessage.notification?.title)
                 .setContentText(remoteMessage.notification?.body)
