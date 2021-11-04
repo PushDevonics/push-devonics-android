@@ -50,6 +50,9 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         //Log.d(TAG, "onMessageReceived")
 
         val packageName = applicationContext.packageName
+        val mLauncher = "ic_launcher"
+        val resId = resources.getIdentifier(mLauncher, "mipmap", packageName)
+        Log.d(TAG, "onMessageReceived resId: $resId")
 
         Log.d(TAG, "onMessageReceived packageName: $packageName")
         val intent = packageManager.getLaunchIntentForPackage(packageName)
@@ -72,7 +75,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
             val builder = NotificationCompat.Builder(this, channelId)
                 //.setSmallIcon(R.mipmap.ic_launcher)
-                .setSmallIcon(android.R.drawable.sym_def_app_icon)
+                .setSmallIcon(resId)
                 .setContentTitle(remoteMessage.notification?.title)
                 .setContentText(remoteMessage.notification?.body)
                 //.setContentText("https://www.google.com.ua/")
@@ -97,7 +100,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             notificationManager.notify(0, builder.build())
         } else {
             val builder = NotificationCompat.Builder(this, channelId)
-                .setSmallIcon(android.R.drawable.sym_def_app_icon)
+                .setSmallIcon(resId)
                 .setContentTitle(remoteMessage.notification?.title)
                 .setContentText(remoteMessage.notification?.body)
                 //.setContentText("http://developer.alexanderklimov.ru/android/")
