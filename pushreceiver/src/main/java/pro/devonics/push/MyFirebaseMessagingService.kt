@@ -98,13 +98,13 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 notificationManager.createNotificationChannel(channel)
             }
             notificationManager.notify(0, builder.build())
-        } else {
+        }
+        remoteMessage.notification?.let {
             val builder = NotificationCompat.Builder(this, channelId)
                 .setSmallIcon(resId)
                 .setContentTitle(remoteMessage.notification?.title)
                 .setContentText(remoteMessage.notification?.body)
-                //.setContentText("http://developer.alexanderklimov.ru/android/")
-                .setDefaults(Notification.DEFAULT_ALL)
+                //.setDefaults(Notification.DEFAULT_ALL)
                 .setAutoCancel(true)
                 .setChannelId(channelId)
                 .setContentIntent(pendingIntent)
@@ -119,6 +119,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 notificationManager.createNotificationChannel(channel)
             }
             notificationManager.notify(0, builder.build())
+            Log.d(TAG, "Message Notification Body: ${it.body}")
+            Log.d(TAG, "Message Notification Body: ${it.icon}")
         }
     }
 
