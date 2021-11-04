@@ -51,7 +51,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
         val packageName = applicationContext.packageName
 
-        //Log.d(TAG, "onMessageReceived packageName: $packageName")
+        Log.d(TAG, "onMessageReceived packageName: $packageName")
         val intent = packageManager.getLaunchIntentForPackage(packageName)
 
         intent?.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
