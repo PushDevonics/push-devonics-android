@@ -27,11 +27,10 @@ class DataHelper {
         }
 
         fun sendTimeStatistic() {
+            val date = Calendar.getInstance().timeInMillis
+            stopTime = date
 
-            val date = Date()
-            stopTime = date.time
-
-            val duration = stopTime - startTime
+            val duration = (stopTime - startTime) / 1000
 
             val timeData = registrationId?.let {
                 TimeData(it, duration)
@@ -44,8 +43,8 @@ class DataHelper {
         }
 
         fun startTime() {
-            val date = Date()
-            startTime = date.time
+            val date = Calendar.getInstance().timeInMillis
+            startTime = date
             //Log.d(TAG, "onCreate: startTime = $startTime")
         }
 
