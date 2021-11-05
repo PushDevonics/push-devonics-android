@@ -44,27 +44,15 @@ MainActivity in onCreate():
     DataHelper.Companion.startTime();
     
     // If you want add tag type String
-    inputTags("key", "value");
+    DataHelper.Companion.inputTags("key", "value");
     
 MainActivity in onResume():
 
     if ("transition" == intent.getStringExtra("command")) {
-            createTransition();
+            DataHelper.Companion.createTransition();
         }
         
 MainActivity in onDestroy():
 
-    sendTimeStatistic();
+    DataHelper.Companion.sendTimeStatistic();
     
-If you want use custom icon add it to AndroidManifest in application tag:
-
-    <meta-data
-            android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/your_icon" />
-    <meta-data 
-            android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@color/your_color" />
-    <meta-data
-            android:name="com.google.firebase.messaging.default_notification_channel_id"
-            android:value="default_notification_channel_id" />
-            
