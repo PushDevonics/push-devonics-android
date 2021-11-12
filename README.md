@@ -16,34 +16,42 @@ and:
     }
     
 Kotlin:
+MainActivity:
+
+    private lateinit var pushDevonics: PushDevonics
+    
 MainActivity in onCreate():
 
-    AppContextKeeper.setContext(applicationContext)
-    PushInitialization.run("appId")
-    startTime()
+    pushDevonics = PushDevonics(applicationContext, "appId")
+    lifecycle.addObserver(pushDevonics)
+    
+    // If you need internalId
+    val internalId = pushDevonics.getInternalId() ?: return
     
     // If you want add tag type String
-    inputTags("key", "value")
+    pushDevonics.setTags("key", "value")
     
 MainActivity in onResume():
 
-    if ("transition" == intent.getStringExtra("command")) {
-            createTransition()
-        }
+    pushDevonics.sendIntent(intent = intent)
     
 Java:
+MainActivity:
+
+    private PushDevonics pushDevonics;
+    
 MainActivity in onCreate():
 
-    AppContextKeeper.Companion.setContext(getApplicationContext);
-    PushInitialization.Companion.run("appId");
-    DataHelper.Companion.startTime();
+    pushDevonics = new PushDevonics(getApplicationContext(), "appId");
+    getLifecycle().addObserver(pushDevonics);
+        
+    // If you need internalId
+    String internalId = pushDevonics.getInternalId();
     
     // If you want add tag type String
-    DataHelper.Companion.inputTags("key", "value");
+    pushDevonics.setTags("key", "value");
     
 MainActivity in onResume():
 
-    if ("transition" == intent.getStringExtra("command")) {
-            DataHelper.Companion.createTransition();
-        }
+    pushDevonics.sendIntent(getIntent());
         
