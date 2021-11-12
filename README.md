@@ -30,11 +30,6 @@ MainActivity in onResume():
     if ("transition" == intent.getStringExtra("command")) {
             createTransition()
         }
-        
-MainActivity in onDestroy():
-
-    sendTimeStatistic()
-    
     
 Java:
 MainActivity in onCreate():
@@ -52,7 +47,3 @@ MainActivity in onResume():
             DataHelper.Companion.createTransition();
         }
         
-MainActivity in onDestroy():
-
-    DataHelper.Companion.sendTimeStatistic();
-    
