@@ -1,4 +1,4 @@
-package com.artemkjv.push_receiver
+package pro.devonics.push
 
 import org.junit.Test
 

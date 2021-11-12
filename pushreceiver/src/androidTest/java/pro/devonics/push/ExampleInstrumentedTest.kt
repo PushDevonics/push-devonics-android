@@ -1,4 +1,4 @@
-package com.artemkjv.push_receiver
+package pro.devonics.push
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
