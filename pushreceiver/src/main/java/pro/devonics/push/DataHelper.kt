@@ -1,5 +1,6 @@
 package pro.devonics.push
 
+import pro.devonics.push.model.PushData
 import pro.devonics.push.model.Tag
 import pro.devonics.push.model.TimeData
 import pro.devonics.push.network.ApiHelper
@@ -48,8 +49,10 @@ class DataHelper {
             //Log.d(TAG, "onCreate: startTime = $startTime")
         }
 
-        fun createTransition() {
-            val transition = registrationId?.let { service.createTransition(it) }
+        fun createTransition(pushData: PushData) {
+            val pushCache = PushCache()
+            val regId = cache.getRegistrationIdFromPref()
+            val transition = registrationId?.let { service.createTransition(it, pushData) }
             //Log.d(TAG, "createTransition: = $transition")
         }
     }

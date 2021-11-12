@@ -11,11 +11,23 @@ class PushCache {
     private val OLD_REGISTRATION_ID = "old_registration_id"
     private val REGISTRATION_ID = "registration_id"
     private val REGISTRATION_STATUS = "registration_status"
+    private val INTERNAL_ID = "internal_id"
 
     private val appContext = AppContextKeeper.getContext()
     private val ed = appContext
         .getSharedPreferences(PUSH_CACHE, Context.MODE_PRIVATE)
         ?.edit()
+
+    fun saveInternalId(internalId: String) {
+        ed?.putString(INTERNAL_ID, internalId)
+        ed?.apply()
+    }
+
+    fun getInternalIdFromPref(): String? {
+        return appContext
+            .getSharedPreferences(PUSH_CACHE, Context.MODE_PRIVATE)
+            ?.getString(INTERNAL_ID, null)
+    }
 
     fun saveOldRegistrationIdPref(old_reg_id: String) {
         ed?.putString(OLD_REGISTRATION_ID, old_reg_id)

@@ -1,6 +1,7 @@
 package pro.devonics.push.network
 
 import android.util.Log
+import pro.devonics.push.PushCache
 import pro.devonics.push.model.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -25,20 +26,27 @@ class ApiHelper(private val apiService: ApiService) {
         return null
     }
 
-    fun createPush(pushUser: PushUser): String? {
+    fun createPush(pushUser: PushUser): Status? {
         val call = apiService.createPush(pushUser)
-        val response = call.enqueue(
-            object : Callback<PushUser> {
+        call.enqueue(
+            object : Callback<Status> {
                 override fun onResponse(
-                    call: Call<PushUser>, response: Response<PushUser>) {
+                    call: Call<Status>, response: Response<Status>) {
 
                     if (response.code() == 500) {
                         Log.d(TAG, "createPush.onResponse: ERROR = 500")
                     }
-                    //Log.d(TAG, "createPush.onResponse: response = $response")
+
+                    val i = response.body()?.internal
+                    if (i != null) {
+                        val pushCache = PushCache()
+                        val internalId = i.getInternalId()
+                        pushCache.saveInternalId(internalId)
+                        Log.d(TAG, "createPush: internalId = $internalId")
+                    }
                 }
 
-                override fun onFailure(call: Call<PushUser>, t: Throwable) {
+                override fun onFailure(call: Call<Status>, t: Throwable) {
                     //Log.d(TAG, "createPush.onFailure: Throwable = $t")
                 }
 
@@ -46,16 +54,16 @@ class ApiHelper(private val apiService: ApiService) {
         return null
     }
 
-    fun createSession(registrationId: String): Internal? {
+    fun createSession(registrationId: String): Status? {
         val call = apiService.createSession(registrationId)
 
         call.enqueue(
-            object : Callback<Internal> {
-                override fun onResponse(call: Call<Internal>, response: Response<Internal>) {
+            object : Callback<Status> {
+                override fun onResponse(call: Call<Status>, response: Response<Status>) {
                     //Log.d(TAG, "createSession.onResponse: response = $response")
                 }
 
-                override fun onFailure(call: Call<Internal>, t: Throwable) {
+                override fun onFailure(call: Call<Status>, t: Throwable) {
                     //Log.d(TAG, "createSession.onFailure: t = $t")
                 }
             }
@@ -65,7 +73,7 @@ class ApiHelper(private val apiService: ApiService) {
 
     fun updateRegistrationId(pushInstance: PushInstance): String? {
         val call = apiService.updateUser(pushInstance)
-        val response = call.enqueue(
+        call.enqueue(
             object : Callback<PushInstance> {
                 override fun onResponse(
                     call: Call<PushInstance>,
@@ -117,15 +125,15 @@ class ApiHelper(private val apiService: ApiService) {
         return null
     }
 
-    fun createTransition(registrationId: String): Internal? {
-        val call = apiService.createTransition(registrationId)
+    fun createTransition(registrationId: String, pushData: PushData): Status? {
+        val call = apiService.createTransition(registrationId, pushData)
         //Log.d(TAG, "createTransition: registrationId = $registrationId")
         call.enqueue(
-            object : Callback<Internal> {
-                override fun onResponse(call: Call<Internal>, response: Response<Internal>) {
+            object : Callback<Status> {
+                override fun onResponse(call: Call<Status>, response: Response<Status>) {
                 }
 
-                override fun onFailure(call: Call<Internal>, t: Throwable) {
+                override fun onFailure(call: Call<Status>, t: Throwable) {
                     //Log.d(TAG, "createTransition.onFailure: Throwable = $t")
                 }
             }

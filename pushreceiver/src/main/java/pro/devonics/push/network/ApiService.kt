@@ -13,13 +13,13 @@ interface ApiService {
     fun getSenderId(@Path("app_id") app_id: String): Call<Sender>
 
     //2 Отсылаем запрос только при первом открытии приложения и сохраняем
-    //   registration_id в кеш
+    //   registration_id в кеш, получаем internal_id
     @POST(SUBSCRIBE_USER)
-    fun createPush(@Body pushUser: PushUser): Call<PushUser>
+    fun createPush(@Body pushUser: PushUser): Call<Status>
 
     //3 Отсылаем каждый раз при открытии приложения
     @GET(SESSION)
-    fun createSession(@Path("registration_id") registrationId: String): Call<Internal>//: Call<PushUser>
+    fun createSession(@Path("registration_id") registrationId: String): Call<Status>//: Call<PushUser>
 
     //4 Отсылаем при обновление fcm токена
     @PUT(UPDATE_USER)
@@ -34,6 +34,8 @@ interface ApiService {
     fun sendDuration(@Body timeData: TimeData): Call<TimeData>
 
     // Отсылаем переход по пушу
-    @GET(TRANSITION)
-    fun createTransition(@Path("registration_id") registrationId: String): Call<Internal>
+    @POST(TRANSITION)
+    fun createTransition(
+        @Path("registration_id") registrationId: String,
+        @Body  pushData: PushData): Call<Status>
 }
