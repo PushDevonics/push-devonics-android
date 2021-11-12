@@ -16,6 +16,7 @@ and:
     }
     
 Kotlin:
+
 MainActivity:
 
     private lateinit var pushDevonics: PushDevonics
@@ -36,6 +37,7 @@ MainActivity in onResume():
     pushDevonics.sendIntent(intent = intent)
     
 Java:
+
 MainActivity:
 
     private PushDevonics pushDevonics;
