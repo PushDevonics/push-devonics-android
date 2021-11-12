@@ -35,10 +35,16 @@ class PushDevonics(context: Context, appId: String) : LifecycleObserver {
     }
 
     fun sendIntent(intent: Intent) {
-        val pushData = PushData("App\\Model\\CustomPush", "6")
+
+        val bundle = intent.extras
+        val pushType = bundle?.get("push_type").toString()
+        val pushId = bundle?.get("push_id").toString()
+
+        val pushData = PushData(pushType, pushId)
         //Log.d(TAG, "sendIntent: intent = $intent")
         if ("transition" == intent.getStringExtra("command")) {
             createTransition(pushData)
+            Log.d(TAG, "sendIntent: pushData = $pushData")
         }
     }
 

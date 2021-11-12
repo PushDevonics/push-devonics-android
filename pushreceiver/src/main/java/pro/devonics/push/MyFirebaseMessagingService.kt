@@ -59,6 +59,10 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         intent?.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
         intent?.putExtra("command", "transition")
 
+        // Send pushData to intent
+        intent?.putExtra("push_type", remoteMessage.data["push_type"].toString())
+        intent?.putExtra("push_id", remoteMessage.data["push_id"].toString())
+
         val pendingIntent = PendingIntent.getActivity(
             this, 0, intent, 0)//PendingIntent.FLAG_ONE_SHOT)
         val channelId = "Default"
