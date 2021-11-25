@@ -72,7 +72,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             .notification?.imageUrl?.let { getBitmapFromUrl(it.toString()) }
 
         val pendingIntent = PendingIntent.getActivity(
-            this, 0, intent, 0)//PendingIntent.FLAG_ONE_SHOT)
+            this, 0, intent, PendingIntent.FLAG_ONE_SHOT)
         val channelId = "Default"
 
         if (remoteMessage.data["image"] != null && remoteMessage.notification?.imageUrl == null) {
