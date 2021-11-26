@@ -102,11 +102,9 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         if (remoteMessage.data["image"] != null && remoteMessage.notification?.imageUrl != null) {
 
             val builder = NotificationCompat.Builder(this, channelId)
-                //.setSmallIcon(R.mipmap.ic_launcher)
                 .setSmallIcon(resId)
                 .setContentTitle(remoteMessage.notification?.title)
                 .setContentText(remoteMessage.notification?.body)
-                //.setContentText("https://www.google.com.ua/")
                 .setLargeIcon(smallIcon)
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setAutoCancel(true)
@@ -126,7 +124,9 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 notificationManager.createNotificationChannel(channel)
             }
             notificationManager.notify(0, builder.build())
-        } else {
+        }
+
+        if (remoteMessage.data["image"] == null && remoteMessage.notification?.imageUrl != null) {
             remoteMessage.notification?.let {
                 val builder = NotificationCompat.Builder(this, channelId)
                     .setSmallIcon(resId)
@@ -149,12 +149,39 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 notificationManager.notify(0, builder.build())
             }
         }
+
+        if (remoteMessage.data["image"] == null
+            && remoteMessage.notification?.imageUrl == null
+            && remoteMessage.notification != null) {
+
+            remoteMessage.notification?.let {
+                val builder = NotificationCompat.Builder(this, channelId)
+                    .setSmallIcon(resId)
+                    .setContentTitle(remoteMessage.notification?.title)
+                    .setContentText(remoteMessage.notification?.body)
+                    //.setLargeIcon(smallIcon)
+                    .setDefaults(Notification.DEFAULT_ALL)
+                    .setAutoCancel(true)
+                    .setChannelId(channelId)
+                    .setContentIntent(pendingIntent)
+
+                val notificationManager = NotificationManagerCompat.from(this)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    val channel = NotificationChannel(
+                        channelId,
+                        "Default channel",
+                        NotificationManager.IMPORTANCE_DEFAULT)
+                    notificationManager.createNotificationChannel(channel)
+                }
+                notificationManager.notify(0, builder.build())
+            }
+        }
     }
 
     private fun getBitmapFromUrl(imageUrl: String): Bitmap {
         val url = URL(imageUrl)
         val connection = url.openConnection() as HttpURLConnection
-        connection.doInput
+        connection.doInput = true
         connection.connect()
         val input = connection.inputStream
         return BitmapFactory.decodeStream(input)
