@@ -47,7 +47,6 @@ class PushInitialization {
                                                 it
                                             )
                                         }
-                                        val session = service.createSession(registrationId)
                                         pushCache.saveRegistrationIdPref(registrationId)
                                         //Log.d(TAG, "complete2: pushInstance = $pushInstance")
                                         //Log.d(TAG, "complete2: updatedRegistrationsId = $updatedRegistrationsId")
@@ -65,12 +64,14 @@ class PushInitialization {
                                         //Log.d(TAG, "complete: subscribe = $subscribe")
                                     }
 
-                                    val session = service.createSession(registrationId)
+                                    //val session = service.createSession(registrationId)
                                     //Log.d(TAG, "complete: session = $session")
                                 }
                                 if (status > 0) {
                                     pushCache.saveRegistrationStatus(status)
                                 }
+                                val session = registrationId?.let { service.createSession(it) }
+                                //Log.d(TAG, "complete: session = $session")
                             }
                         }
                     )
