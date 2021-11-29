@@ -70,9 +70,9 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         //get icon
         val smallIcon = remoteMessage
             .notification?.imageUrl?.let { getBitmapFromUrl(it.toString()) }
-
+        val rnds = (1..1000).random()
         val pendingIntent = PendingIntent.getActivity(
-            this, 0, intent, PendingIntent.FLAG_ONE_SHOT)
+            this, rnds, intent, PendingIntent.FLAG_ONE_SHOT)
         val channelId = "Default"
 
         if (remoteMessage.data["image"] != null && remoteMessage.notification?.imageUrl == null) {
