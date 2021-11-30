@@ -27,7 +27,7 @@ MainActivity in onCreate():
     lifecycle.addObserver(pushDevonics)
     
     // If you need internalId
-    val internalId = pushDevonics.getInternalId() ?: return
+    val internalId = pushDevonics.getInternalId()
     
     // If you want add tag type String
     pushDevonics.setTags("key", "value")
