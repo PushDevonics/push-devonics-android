@@ -11,12 +11,37 @@ class PushCache {
     private val OLD_REGISTRATION_ID = "old_registration_id"
     private val REGISTRATION_ID = "registration_id"
     private val REGISTRATION_STATUS = "registration_status"
+    private val SUBSCRIBE_STATUS = "subscribe_status"
     private val INTERNAL_ID = "internal_id"
+    private val TAG_KEY = "tag_key"
+    private val TAG_VALUE = "tag_value"
 
     private val appContext = AppContextKeeper.getContext()
     private val ed = appContext
         .getSharedPreferences(PUSH_CACHE, Context.MODE_PRIVATE)
         ?.edit()
+
+    fun saveTagKey(key: String) {
+        ed?.putString(TAG_KEY, key)
+        ed?.apply()
+    }
+
+    fun getTagKey(): String? {
+        return appContext
+            .getSharedPreferences(PUSH_CACHE, Context.MODE_PRIVATE)
+            ?.getString(TAG_KEY, null)
+    }
+
+    fun saveTagValue(tagValue: String) {
+        ed?.putString(TAG_VALUE, tagValue)
+        ed?.apply()
+    }
+
+    fun getTagValue(): String? {
+        return appContext
+            .getSharedPreferences(PUSH_CACHE, Context.MODE_PRIVATE)
+            ?.getString(TAG_VALUE, null)
+    }
 
     fun saveInternalId(internalId: String) {
         ed?.putString(INTERNAL_ID, internalId)
@@ -63,5 +88,15 @@ class PushCache {
         return appContext
             .getSharedPreferences(PUSH_CACHE, Context.MODE_PRIVATE)
             ?.getInt(REGISTRATION_STATUS, 0)
+    }
+
+    fun saveSubscribeStatus(status: Boolean) {
+        ed?.putBoolean(SUBSCRIBE_STATUS, status)
+        ed?.apply()
+    }
+    fun getSubscribeStatusFromPref(): Boolean? {
+        return appContext
+            .getSharedPreferences(PUSH_CACHE, Context.MODE_PRIVATE)
+            ?.getBoolean(SUBSCRIBE_STATUS, false)
     }
 }

@@ -37,6 +37,7 @@ class PushInitialization {
                                 //Log.d(TAG, "complete: status = $status}")
                                 val pushCache = PushCache()
                                 val regId = pushCache.getRegistrationIdFromPref()
+                                val internalId = pushCache.getInternalIdFromPref()
 
                                 if (!regId.equals(registrationId)) {
                                     if (registrationId != null) {
@@ -58,8 +59,13 @@ class PushInitialization {
 
                                 if (registrationId != null) {
                                     if (regId == null) {
-                                        val pushUser = setPushUser(registrationId, appId, appContext)
-                                        val subscribe = service.createPush(pushUser)
+                                        val pushUser =
+                                            internalId?.let {
+                                                setPushUser(registrationId, appId, appContext,
+                                                    it
+                                                )
+                                            }
+                                        val subscribe = pushUser?.let { service.createPush(it) }
                                         //Log.d(TAG, "complete: pushUser = $pushUser")
                                         //Log.d(TAG, "complete: subscribe = $subscribe")
                                     }
@@ -70,7 +76,7 @@ class PushInitialization {
                                 if (status > 0) {
                                     pushCache.saveRegistrationStatus(status)
                                 }
-                                val session = registrationId?.let { service.createSession(it) }
+                                //val session = registrationId?.let { service.createSession(it) }
                                 //Log.d(TAG, "complete: session = $session")
                             }
                         }
@@ -103,7 +109,11 @@ class PushInitialization {
             return isValid
         }
 
-        private fun setPushUser(registrationId: String, appId: String, appContext: Context): PushUser {
+        private fun setPushUser(
+            registrationId: String,
+            appId: String,
+            appContext: Context,
+            internalId: String): PushUser {
 
             //Get timezone
             val tz = TimeZone.getDefault()//.toZoneId()
@@ -130,6 +140,7 @@ class PushInitialization {
 
             return PushUser(
                 registrationId,
+                internalId,
                 appId,
                 "Android",
                 country,

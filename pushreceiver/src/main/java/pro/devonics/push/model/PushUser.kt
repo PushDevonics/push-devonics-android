@@ -7,6 +7,9 @@ data class PushUser(
     @SerializedName("registration_id")
     private val registrationId: String,
 
+    @SerializedName("internal_id")
+    private val internalId: String,
+
     @SerializedName("app_id")
     private val appId: String,
 

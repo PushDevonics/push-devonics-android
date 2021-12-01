@@ -21,26 +21,11 @@ class DataHelper {
         private val cache = PushCache()
         val registrationId = cache.getRegistrationIdFromPref()
 
-        fun inputTags(key: String, value: String) {
-            val tag = registrationId?.let { Tag(key, value, it) }
-            val saveTag = tag?.let { service.saveTag(it) }
-            //Log.d(TAG, "saveTags: tag = $tag")
-        }
-
-        fun sendTimeStatistic() {
+        fun getDuration(): Long {
             val date = Calendar.getInstance().timeInMillis
             stopTime = date
 
-            val duration = (stopTime - startTime) / 1000
-
-            val timeData = registrationId?.let {
-                TimeData(it, duration)
-            }
-            if (timeData != null) {
-                service.sendTimeStatistic(timeData)
-            }
-            //Log.d(TAG, "onDestroy: stopTime = $stopTime")
-            //Log.d(TAG, "onDestroy: duration = $duration")
+            return (stopTime - startTime) / 1000
         }
 
         fun startTime() {
@@ -50,8 +35,8 @@ class DataHelper {
         }
 
         fun createTransition(pushData: PushData) {
-            val pushCache = PushCache()
-            val regId = cache.getRegistrationIdFromPref()
+            //val pushCache = PushCache()
+            //val regId = cache.getRegistrationIdFromPref()
             val transition = registrationId?.let { service.createTransition(it, pushData) }
             //Log.d(TAG, "createTransition: = $transition")
         }
