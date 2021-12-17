@@ -1,5 +1,6 @@
 package pro.devonics.push.network
 
+import android.util.Base64
 import pro.devonics.push.BASE_URL
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -7,6 +8,8 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitBuilder {
+
+    private val baseUrl = Base64.decode(BASE_URL, 8).decodeToString()
 
     private val loggingInterceptor: HttpLoggingInterceptor =
         HttpLoggingInterceptor().apply {
@@ -20,7 +23,7 @@ object RetrofitBuilder {
     private fun getRetrofit(): Retrofit {
         return Retrofit.Builder()
             .client(okhttpClient)
-            .baseUrl(BASE_URL)
+            .baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
