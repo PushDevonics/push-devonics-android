@@ -63,13 +63,7 @@ class PushDevonics(context: Context, appId: String) : LifecycleEventObserver {
 
     fun getInternalId(): String? {
         val pushCache = PushCache()
-        var internalId = pushCache.getInternalIdFromPref()
-        if (internalId == null) {
-            val uuid = UUID.randomUUID()
-            internalId = uuid.toString()
-            pushCache.saveInternalId(internalId)
-        }
-        return internalId
+        return pushCache.getInternalIdFromPref()
     }
 
     private fun startSession() {
