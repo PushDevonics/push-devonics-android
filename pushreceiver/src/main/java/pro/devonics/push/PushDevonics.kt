@@ -22,6 +22,7 @@ class PushDevonics(context: Context, appId: String) : LifecycleEventObserver {
     init {
         AppContextKeeper.setContext(context)
         PushInitialization.run(appId)
+        createInternalId()
         startTime()
     }
 
@@ -46,6 +47,17 @@ class PushDevonics(context: Context, appId: String) : LifecycleEventObserver {
 
             createTransition(pushData)
             Log.d(TAG, "sendIntent: pushData = $pushData")
+        }
+    }
+
+    private fun createInternalId() {
+        val pushCache = PushCache()
+
+        var internalId = pushCache.getInternalIdFromPref()
+        if (internalId == null) {
+            val uuid = UUID.randomUUID()
+            internalId = uuid.toString()
+            pushCache.saveInternalId(internalId)
         }
     }
 
