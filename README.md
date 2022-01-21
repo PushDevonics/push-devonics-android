@@ -32,6 +32,9 @@ MainActivity in onCreate():
     // If you want add tag type String
     pushDevonics.setTags("key", "value")
     
+    // If you need deeplink
+    val deepLink = intent.getStringExtra("deeplink")
+    
 MainActivity in onResume():
 
     pushDevonics.sendIntent(intent = intent)
@@ -52,6 +55,9 @@ MainActivity in onCreate():
     
     // If you want add tag type String
     pushDevonics.setTags("key", "value");
+    
+    // If you need deeplink
+    String deeplink = getIntent().getStringExtra("deeplink");
     
 MainActivity in onResume():
 
