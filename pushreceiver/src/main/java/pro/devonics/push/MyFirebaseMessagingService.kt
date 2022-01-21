@@ -15,6 +15,8 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import pro.devonics.push.network.ApiHelper
+import pro.devonics.push.network.RetrofitBuilder
 import java.net.HttpURLConnection
 import java.net.URL
 
@@ -63,6 +65,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         // Send pushData to intent
         intent?.putExtra("push_type", remoteMessage.data["push_type"].toString())
         intent?.putExtra("push_id", remoteMessage.data["push_id"].toString())
+        intent?.putExtra("deeplink", remoteMessage.data["deeplink"]).toString()
 
         val largeIcon = remoteMessage
             .data["image"]?.let { getBitmapFromUrl(it) }
@@ -70,7 +73,9 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         //get icon
         val smallIcon = remoteMessage
             .notification?.imageUrl?.let { getBitmapFromUrl(it.toString()) }
+
         val rnds = (1..1000).random()
+
         val pendingIntent = PendingIntent.getActivity(
             this, rnds, intent, PendingIntent.FLAG_ONE_SHOT)
         val channelId = "Default"
@@ -189,7 +194,11 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     @SuppressLint("LongLogTag")
     override fun onNewToken(p0: String) {
-        super.onNewToken(p0)
-        //Log.d(TAG, "################ onNewToken##################: $p0")
+        Log.d(TAG, "Refreshed token: $p0")
+        val service = ApiHelper(RetrofitBuilder.apiService)
+        val pushCache = PushCache()
+
+        service.updateRegistrationId(p0)
+        pushCache.saveRegistrationIdPref(p0)
     }
 }

@@ -12,12 +12,12 @@ private const val TAG = "ApiHelper"
 
 class ApiHelper(private val apiService: ApiService) {
 
-    fun getSenderData(appId: String): Sender? {
+    fun getSenderData(appId: String): String? {
         val call = apiService.getSenderId(appId)
 
         try {
             val response = call.execute()
-            return response.body()
+            return response.body()?.data?.getSenderId()
             //Log.d(TAG, "getSenderData: response = $response")
         } catch (e: IOException) {
             e.printStackTrace()
@@ -87,18 +87,16 @@ class ApiHelper(private val apiService: ApiService) {
         return null
     }
 
-    fun updateRegistrationId(pushInstance: PushInstance): String? {
-        val call = apiService.updateUser(pushInstance)
+    fun updateRegistrationId(registrationId: String): Status? {
+        val call = apiService.updateUser(registrationId)
         call.enqueue(
-            object : Callback<PushInstance> {
+            object : Callback<Status> {
                 override fun onResponse(
-                    call: Call<PushInstance>,
-                    response: Response<PushInstance>
-                ) {
+                    call: Call<Status>, response: Response<Status>) {
                     //Log.d(TAG, "updateRegistrationId.onResponse: response = $response")
                 }
 
-                override fun onFailure(call: Call<PushInstance>, t: Throwable) {
+                override fun onFailure(call: Call<Status>, t: Throwable) {
                     //Log.d(TAG, "updateRegistrationId.onFailure: t = $t")
                 }
 
@@ -107,21 +105,21 @@ class ApiHelper(private val apiService: ApiService) {
         return null
     }
 
-    fun saveTag(key: String, value: String, registrationId: String): String? {
+    fun saveTag(key: String, value: String, registrationId: String): Status? {
 
-        val tag = Tag(key, value, registrationId)
+        val tag = Tag(key, value)
 
-        val call = apiService.saveCustomParams(tag)
+        val call = apiService.saveCustomParams(registrationId, tag)
 
         Log.d(TAG, "saveCustomTag: tag = $tag")
 
         call.enqueue(
-           object : Callback<Tag> {
-               override fun onResponse(call: Call<Tag>, response: Response<Tag>) {
+           object : Callback<Status> {
+               override fun onResponse(call: Call<Status>, response: Response<Status>) {
                    //Log.d(TAG, "saveCustomTag.onResponse: response = $response")
                }
 
-               override fun onFailure(call: Call<Tag>, t: Throwable) {
+               override fun onFailure(call: Call<Status>, t: Throwable) {
                    //Log.d(TAG, "saveCustomTag.onFailure: Throwable = $t")
                }
            }
@@ -129,16 +127,16 @@ class ApiHelper(private val apiService: ApiService) {
         return null
     }
 
-    fun sendTimeStatistic(timeData: TimeData): String? {
-        val call = apiService.sendDuration(timeData)
+    fun sendTimeStatistic(registrationId: String, timeData: TimeData): Status? {
+        val call = apiService.sendDuration(registrationId, timeData)
         //Log.d(TAG, "sendTimeStatistic: timeData = $timeData")
         call.enqueue(
-            object : Callback<TimeData> {
-                override fun onResponse(call: Call<TimeData>, response: Response<TimeData>) {
+            object : Callback<Status> {
+                override fun onResponse(call: Call<Status>, response: Response<Status>) {
                     //Log.d(TAG, "sendTimeStatistic.onResponse: response = $response")
                 }
 
-                override fun onFailure(call: Call<TimeData>, t: Throwable) {
+                override fun onFailure(call: Call<Status>, t: Throwable) {
                     //Log.d(TAG, "sendTimeStatistic.onFailure: Throwable = $t")
                 }
             }

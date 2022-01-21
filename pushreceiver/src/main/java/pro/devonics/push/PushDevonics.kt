@@ -69,8 +69,9 @@ class PushDevonics(context: Context, appId: String) : LifecycleEventObserver {
     private fun startSession() {
         Log.d(TAG, "startSession: ")
         val pushCache = PushCache()
+        val registrationId = pushCache.getRegistrationIdFromPref()
         if (pushCache.getSubscribeStatusFromPref() == true) {
-            val session = DataHelper.registrationId?.let { service.createSession(it) }
+            val session = registrationId?.let { service.createSession(it) }
             //Log.d(TAG, "subscribeStatus = ${pushCache.getSubscribeStatusFromPref()}")
 
         }
@@ -81,8 +82,8 @@ class PushDevonics(context: Context, appId: String) : LifecycleEventObserver {
         val pushCache = PushCache()
         val regId = pushCache.getRegistrationIdFromPref()
         if (regId != null) {
-            val timeData = TimeData(regId, duration)
-            service.sendTimeStatistic(timeData)
+            val timeData = TimeData(duration)
+            service.sendTimeStatistic(regId, timeData)
             //Log.d(TAG, "stopSession: timeData $timeData")
         }
 
