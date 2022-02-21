@@ -35,6 +35,9 @@ MainActivity in onCreate():
     // If you need deeplink
     val deepLink = intent.getStringExtra("deeplink")
     
+    // If you need open URL in browser
+    pushDevonics.openUrl(intent.getStringExtra("open_url"))
+    
 MainActivity in onResume():
 
     pushDevonics.sendIntent(intent = intent)
@@ -58,6 +61,9 @@ MainActivity in onCreate():
     
     // If you need deeplink
     String deeplink = getIntent().getStringExtra("deeplink");
+    
+    // If you need open URL in browser
+    pushDevonics.openUrl(getIntent().getStringExtra("open_url"))
     
 MainActivity in onResume():
 
