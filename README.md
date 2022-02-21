@@ -63,7 +63,7 @@ MainActivity in onCreate():
     String deeplink = getIntent().getStringExtra("deeplink");
     
     // If you need open URL in browser
-    pushDevonics.openUrl(getIntent().getStringExtra("open_url"))
+    pushDevonics.openUrl(getIntent().getStringExtra("open_url"));
     
 MainActivity in onResume():
 
