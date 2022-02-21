@@ -13,6 +13,7 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import pro.devonics.push.network.ApiHelper
@@ -59,12 +60,13 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         //Log.d(TAG, "onMessageReceived packageName: $packageName")
 
         val intent = packageManager.getLaunchIntentForPackage(packageName)
-        intent?.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+        intent?.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
         intent?.putExtra("command", "transition")
 
         // Send pushData to intent
         intent?.putExtra("sent_push_id", remoteMessage.data["sent_push_id"])
         intent?.putExtra("deeplink", remoteMessage.data["deeplink"]).toString()
+        intent?.putExtra("open_url", remoteMessage.data["open_url"])
 
         val largeIcon = remoteMessage
             .data["image"]?.let { getBitmapFromUrl(it) }
