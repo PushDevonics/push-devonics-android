@@ -49,7 +49,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    @SuppressLint("LongLogTag", "UnspecifiedImmutableFlag", "ServiceCast")
+    @SuppressLint("LongLogTag", "UnspecifiedImmutableFlag",
+        "ServiceCast", "LaunchActivityFromNotification")
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         //Log.d(TAG, "onMessageReceived")
         val helperCache = HelperCache(applicationContext)
