@@ -71,12 +71,15 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         intent?.putExtra("deeplink", remoteMessage.data["deeplink"]).toString()
         intent?.putExtra("open_url", remoteMessage.data["open_url"])
 
+        // get image
         val largeIcon = remoteMessage
-            .data["image"]?.let { getBitmapFromUrl(it) }
+            .notification?.imageUrl?.let { getBitmapFromUrl(it.toString()) }
+        /*val largeIcon = remoteMessage
+            .data["image"]?.let { getBitmapFromUrl(it) }*/
 
         //get icon
         val smallIcon = remoteMessage
-            .notification?.imageUrl?.let { getBitmapFromUrl(it.toString()) }
+            .notification?.icon?.let { getBitmapFromUrl(it.toString()) }
 
         val rnds = (1..1000).random()
 
