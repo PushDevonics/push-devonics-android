@@ -28,7 +28,7 @@ class PushDevonics(context: Context, appId: String) : LifecycleEventObserver {
         PushInitialization.run(appId)
         startTime()
         createInternalId()
-        //sendTransition()
+        sendTransition()
     }
 
     override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
@@ -41,7 +41,7 @@ class PushDevonics(context: Context, appId: String) : LifecycleEventObserver {
         }
     }
 
-    fun sendTransition() {
+    private fun sendTransition() {
 
         //Log.d(TAG, "sendTransition: clicTransition = ${helperCache.getTransitionSt()}")
         val sentPushId = helperCache.getSentPushId()
