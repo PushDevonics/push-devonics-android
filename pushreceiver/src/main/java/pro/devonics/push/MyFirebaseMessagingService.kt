@@ -56,6 +56,17 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         Log.d(TAG, "onMessageReceived: remoteMessage.notification.icon = ${remoteMessage.notification?.icon}")
 
         Log.d(TAG, "onMessageReceived: remoteMessage.data = ${remoteMessage.data}")
+        val helperCache = HelperCache(applicationContext)
+        val sentPushId = remoteMessage.data["sent_push_id"].toString()
+        val deeplink = remoteMessage.data["deeplink"].toString()
+        val openUrl = remoteMessage.data["open_url"].toString()
+        helperCache.saveSentPushId(sentPushId)
+        helperCache.saveDeeplink(deeplink)
+        helperCache.saveOpenUrl(openUrl)
+        Log.d(TAG, "onMessageReceived sentPushId: $sentPushId")
+        Log.d(TAG, "onMessageReceived deeplink: $deeplink")
+        Log.d(TAG, "onMessageReceived openUrl: $openUrl")
+
         val packageName = applicationContext.packageName
         val mLauncher = "ic_launcher"
         val resId = resources.getIdentifier(mLauncher, "mipmap", packageName)

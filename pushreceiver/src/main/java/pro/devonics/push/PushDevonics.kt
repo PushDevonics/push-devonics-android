@@ -41,7 +41,7 @@ class PushDevonics(context: Context, appId: String) : LifecycleEventObserver {
         }
     }
 
-    private fun sendTransition() {
+    fun sendTransition() {
 
         //Log.d(TAG, "sendTransition: clicTransition = ${helperCache.getTransitionSt()}")
         val sentPushId = helperCache.getSentPushId()
