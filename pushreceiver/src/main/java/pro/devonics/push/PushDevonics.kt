@@ -20,14 +20,15 @@ private const val TAG = "PushDevonics"
 class PushDevonics(context: Context, appId: String) : LifecycleEventObserver {
 
     private val service = ApiHelper(RetrofitBuilder.apiService)
-
     private val myContext = context
+    private val helperCache = HelperCache(context)
 
     init {
         AppContextKeeper.setContext(context)
         PushInitialization.run(appId)
-        createInternalId()
         startTime()
+        createInternalId()
+        sendTransition()
     }
 
     override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
@@ -40,7 +41,22 @@ class PushDevonics(context: Context, appId: String) : LifecycleEventObserver {
         }
     }
 
-    fun sendIntent(intent: Intent) {
+    private fun sendTransition() {
+
+        //Log.d(TAG, "sendTransition: clicTransition = ${helperCache.getTransitionSt()}")
+        val sentPushId = helperCache.getSentPushId()
+        if (sentPushId == "" || sentPushId == null) {
+            return
+        }
+        val pushData = PushData(sentPushId)
+        createTransition(pushData)
+        Log.d(TAG, "sendIntent: pushData = $pushData")
+
+        helperCache.saveSentPushId("")
+
+    }
+
+    /*fun sendIntent(intent: Intent) {
 
         if ("transition" == intent.getStringExtra("command")) {
             val bundle = intent.extras
@@ -51,9 +67,14 @@ class PushDevonics(context: Context, appId: String) : LifecycleEventObserver {
             createTransition(pushData)
             Log.d(TAG, "sendIntent: pushData = $pushData")
         }
-    }
+    }*/
 
-    fun openUrl(openUrl: String?) {
+    fun openUrl() {
+        val openUrl = helperCache.getOpenUrl()
+        if (openUrl == "") {
+            return
+        }
+
         if (openUrl != null) {
             val urlIntent = Intent()
                 .setAction(Intent.ACTION_VIEW)
@@ -67,6 +88,14 @@ class PushDevonics(context: Context, appId: String) : LifecycleEventObserver {
                 Log.e(TAG, "ActivityNotFoundException $e")
             }
         }
+        helperCache.saveOpenUrl("")
+        Log.d(TAG, "openUrl = $openUrl")
+    }
+
+    fun getDeeplink(): String {
+        val deep1 = helperCache.getDeeplink()
+        helperCache.saveDeeplink("")
+        return deep1.toString()
     }
 
     private fun createInternalId() {
