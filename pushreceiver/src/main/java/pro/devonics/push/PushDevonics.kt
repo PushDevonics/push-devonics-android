@@ -50,7 +50,7 @@ class PushDevonics(context: Context, appId: String) : LifecycleEventObserver {
         }
         val pushData = PushData(sentPushId)
         createTransition(pushData)
-        Log.d(TAG, "sendIntent: pushData = $pushData")
+        Log.d(TAG, "sendTransition: pushData = $pushData")
 
         helperCache.saveSentPushId("")
 

@@ -99,107 +99,98 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val channelId = "Default"
 
         if (remoteMessage.notification?.imageUrl != null && remoteMessage.notification?.icon == null) {
-            remoteMessage.notification?.let {
-                val builder = NotificationCompat.Builder(this, channelId)
-                    .setSmallIcon(resId)
-                    .setContentTitle(remoteMessage.notification?.title)
-                    .setContentText(remoteMessage.notification?.body)
-                    .setDefaults(Notification.DEFAULT_ALL)
-                    .setAutoCancel(true)
-                    .setChannelId(channelId)
-                    .setStyle(NotificationCompat.BigPictureStyle()
-                        .bigPicture(image)
-                    )
-                    .setContentIntent(pendingIntent)
+            val builder = NotificationCompat.Builder(this, channelId)
+                .setSmallIcon(resId)
+                .setContentTitle(remoteMessage.notification?.title)
+                .setContentText(remoteMessage.notification?.body)
+                .setDefaults(Notification.DEFAULT_ALL)
+                .setAutoCancel(true)
+                .setChannelId(channelId)
+                .setStyle(NotificationCompat.BigPictureStyle()
+                    .bigPicture(image)
+                )
+                .setContentIntent(pendingIntent)
 
-                val notificationManager = NotificationManagerCompat.from(this)
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    val channel = NotificationChannel(
-                        channelId,
-                        "Default channel",
-                        NotificationManager.IMPORTANCE_DEFAULT)
-                    notificationManager.createNotificationChannel(channel)
-                }
-                notificationManager.notify(0, builder.build())
+            val notificationManager = NotificationManagerCompat.from(this)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                val channel = NotificationChannel(
+                    channelId,
+                    "Default channel",
+                    NotificationManager.IMPORTANCE_DEFAULT)
+                notificationManager.createNotificationChannel(channel)
             }
+            notificationManager.notify(0, builder.build())
         }
 
         if (remoteMessage.notification?.imageUrl != null && remoteMessage.notification?.icon != null) {
-            remoteMessage.notification?.let {
-                val builder = NotificationCompat.Builder(this, channelId)
-                    .setSmallIcon(resId)
-                    .setContentTitle(remoteMessage.notification?.title)
-                    .setContentText(remoteMessage.notification?.body)
-                    .setLargeIcon(icon)
-                    .setDefaults(Notification.DEFAULT_ALL)
-                    .setAutoCancel(true)
-                    .setChannelId(channelId)
-                    .setStyle(NotificationCompat.BigPictureStyle()
-                        .bigPicture(image)
-                        .bigLargeIcon(icon)
-                    )
-                    .setContentIntent(pendingIntent)
+            val builder = NotificationCompat.Builder(this, channelId)
+                .setSmallIcon(resId)
+                .setContentTitle(remoteMessage.notification?.title)
+                .setContentText(remoteMessage.notification?.body)
+                .setLargeIcon(icon)
+                .setDefaults(Notification.DEFAULT_ALL)
+                .setAutoCancel(true)
+                .setChannelId(channelId)
+                .setStyle(NotificationCompat.BigPictureStyle()
+                    .bigPicture(image)
+                    .bigLargeIcon(icon)
+                )
+                .setContentIntent(pendingIntent)
 
-                val notificationManager = NotificationManagerCompat.from(this)
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    val channel = NotificationChannel(
-                        channelId,
-                        "Default channel",
-                        NotificationManager.IMPORTANCE_DEFAULT)
-                    notificationManager.createNotificationChannel(channel)
-                }
-                notificationManager.notify(0, builder.build())
+            val notificationManager = NotificationManagerCompat.from(this)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                val channel = NotificationChannel(
+                    channelId,
+                    "Default channel",
+                    NotificationManager.IMPORTANCE_DEFAULT)
+                notificationManager.createNotificationChannel(channel)
             }
+            notificationManager.notify(0, builder.build())
         }
 
         if (remoteMessage.notification?.imageUrl == null && remoteMessage.notification?.icon != null) {
-            remoteMessage.notification?.let {
-                val builder = NotificationCompat.Builder(this, channelId)
-                    .setSmallIcon(resId)
-                    .setContentTitle(remoteMessage.notification?.title)
-                    .setContentText(remoteMessage.notification?.body)
-                    .setLargeIcon(icon)
-                    .setDefaults(Notification.DEFAULT_ALL)
-                    .setAutoCancel(true)
-                    .setChannelId(channelId)
-                    .setContentIntent(pendingIntent)
+            val builder = NotificationCompat.Builder(this, channelId)
+                .setSmallIcon(resId)
+                .setContentTitle(remoteMessage.notification?.title)
+                .setContentText(remoteMessage.notification?.body)
+                .setLargeIcon(icon)
+                .setDefaults(Notification.DEFAULT_ALL)
+                .setAutoCancel(true)
+                .setChannelId(channelId)
+                .setContentIntent(pendingIntent)
 
-                val notificationManager = NotificationManagerCompat.from(this)
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    val channel = NotificationChannel(
-                        channelId,
-                        "Default channel",
-                        NotificationManager.IMPORTANCE_DEFAULT)
-                    notificationManager.createNotificationChannel(channel)
-                }
-                notificationManager.notify(0, builder.build())
+            val notificationManager = NotificationManagerCompat.from(this)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                val channel = NotificationChannel(
+                    channelId,
+                    "Default channel",
+                    NotificationManager.IMPORTANCE_DEFAULT)
+                notificationManager.createNotificationChannel(channel)
             }
+            notificationManager.notify(0, builder.build())
         }
 
         if (remoteMessage.notification?.imageUrl == null
             && remoteMessage.notification?.icon == null) {
+            val builder = NotificationCompat.Builder(this, channelId)
+                .setSmallIcon(resId)
+                .setContentTitle(remoteMessage.notification?.title)
+                .setContentText(remoteMessage.notification?.body)
+                //.setLargeIcon(smallIcon)
+                .setDefaults(Notification.DEFAULT_ALL)
+                .setAutoCancel(true)
+                .setChannelId(channelId)
+                .setContentIntent(pendingIntent)
 
-            remoteMessage.notification?.let {
-                val builder = NotificationCompat.Builder(this, channelId)
-                    .setSmallIcon(resId)
-                    .setContentTitle(remoteMessage.notification?.title)
-                    .setContentText(remoteMessage.notification?.body)
-                    //.setLargeIcon(smallIcon)
-                    .setDefaults(Notification.DEFAULT_ALL)
-                    .setAutoCancel(true)
-                    .setChannelId(channelId)
-                    .setContentIntent(pendingIntent)
-
-                val notificationManager = NotificationManagerCompat.from(this)
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    val channel = NotificationChannel(
-                        channelId,
-                        "Default channel",
-                        NotificationManager.IMPORTANCE_DEFAULT)
-                    notificationManager.createNotificationChannel(channel)
-                }
-                notificationManager.notify(0, builder.build())
+            val notificationManager = NotificationManagerCompat.from(this)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                val channel = NotificationChannel(
+                    channelId,
+                    "Default channel",
+                    NotificationManager.IMPORTANCE_DEFAULT)
+                notificationManager.createNotificationChannel(channel)
             }
+            notificationManager.notify(0, builder.build())
         }
     }
 
