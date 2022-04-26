@@ -52,7 +52,10 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     @SuppressLint("LongLogTag", "UnspecifiedImmutableFlag", "ServiceCast")
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         //Log.d(TAG, "onMessageReceived")
+        Log.d(TAG, "onMessageReceived: remoteMessage.notification.image = ${remoteMessage.notification?.imageUrl}")
+        Log.d(TAG, "onMessageReceived: remoteMessage.notification.icon = ${remoteMessage.notification?.icon}")
 
+        Log.d(TAG, "onMessageReceived: remoteMessage.data = ${remoteMessage.data}")
         val packageName = applicationContext.packageName
         val mLauncher = "ic_launcher"
         val resId = resources.getIdentifier(mLauncher, "mipmap", packageName)
