@@ -28,7 +28,7 @@ class PushDevonics(context: Context, appId: String) : LifecycleEventObserver {
         PushInitialization.run(appId)
         startTime()
         createInternalId()
-        sendTransition()
+        //sendTransition()
     }
 
     override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
@@ -56,7 +56,7 @@ class PushDevonics(context: Context, appId: String) : LifecycleEventObserver {
 
     }
 
-    /*fun sendIntent(intent: Intent) {
+    fun sendIntent(intent: Intent) {
 
         if ("transition" == intent.getStringExtra("command")) {
             val bundle = intent.extras
@@ -67,7 +67,7 @@ class PushDevonics(context: Context, appId: String) : LifecycleEventObserver {
             createTransition(pushData)
             Log.d(TAG, "sendIntent: pushData = $pushData")
         }
-    }*/
+    }
 
     fun openUrl() {
         val openUrl = helperCache.getOpenUrl()
