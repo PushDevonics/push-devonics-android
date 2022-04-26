@@ -38,10 +38,6 @@ MainActivity in onCreate():
     // If you need open URL in browser
     pushDevonics.openUrl(intent.getStringExtra("open_url"))
     
-MainActivity in onResume():
-
-    pushDevonics.sendIntent(intent = intent)
-    
 Java:
 
 MainActivity:
@@ -64,8 +60,4 @@ MainActivity in onCreate():
     
     // If you need open URL in browser
     pushDevonics.openUrl(getIntent().getStringExtra("open_url"));
-    
-MainActivity in onResume():
-
-    pushDevonics.sendIntent(getIntent());
         
