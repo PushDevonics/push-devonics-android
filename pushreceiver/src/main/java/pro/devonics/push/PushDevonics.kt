@@ -28,14 +28,14 @@ class PushDevonics(context: Context, appId: String) : LifecycleEventObserver {
         PushInitialization.run(appId)
         startTime()
         createInternalId()
-        sendTransition()
+        //sendTransition()
     }
 
     override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
         when (event) {
             Lifecycle.Event.ON_CREATE -> Log.d(TAG, "onCreate: ")
             Lifecycle.Event.ON_START -> startSession()
-            Lifecycle.Event.ON_RESUME -> Log.d(TAG, "onResume: ")
+            Lifecycle.Event.ON_RESUME -> sendTransition()//Log.d(TAG, "onResume: ")
             Lifecycle.Event.ON_STOP -> Log.d(TAG, "onStop: ")
             Lifecycle.Event.ON_DESTROY -> stopSession()//Log.d(TAG, "onDestroy: ")
         }
