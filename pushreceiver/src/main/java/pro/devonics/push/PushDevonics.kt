@@ -1,9 +1,12 @@
 package pro.devonics.push
 
+import android.app.Activity
+import android.app.Application
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.*
 import pro.devonics.push.DataHelper.Companion.createTransition
@@ -17,25 +20,29 @@ import java.util.*
 
 private const val TAG = "PushDevonics"
 
-class PushDevonics(context: Context, appId: String) : LifecycleEventObserver {
+class PushDevonics(context: Context, appId: String)
+    : LifecycleEventObserver, Application.ActivityLifecycleCallbacks {
 
     private val service = ApiHelper(RetrofitBuilder.apiService)
-    private val myContext = context
     private val helperCache = HelperCache(context)
+    private val myContext = context
 
     init {
         AppContextKeeper.setContext(context)
         PushInitialization.run(appId)
         startTime()
+        startSession()
         createInternalId()
-        //sendTransition()
+        openUrl(context)
     }
 
     override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+        Log.d(TAG, "onStateChanged: source = $source")
         when (event) {
-            Lifecycle.Event.ON_CREATE -> Log.d(TAG, "onCreate: ")
-            Lifecycle.Event.ON_START -> startSession()
+            Lifecycle.Event.ON_CREATE -> Log.d(TAG, "ON_CREATE: ")
+            Lifecycle.Event.ON_START -> Log.d(TAG, "ON_START: ")
             Lifecycle.Event.ON_RESUME -> sendTransition()//Log.d(TAG, "onResume: ")
+            Lifecycle.Event.ON_PAUSE -> openUrl(myContext)
             Lifecycle.Event.ON_STOP -> Log.d(TAG, "onStop: ")
             Lifecycle.Event.ON_DESTROY -> stopSession()//Log.d(TAG, "onDestroy: ")
         }
@@ -45,18 +52,17 @@ class PushDevonics(context: Context, appId: String) : LifecycleEventObserver {
 
         //Log.d(TAG, "sendTransition: clicTransition = ${helperCache.getTransitionSt()}")
         val sentPushId = helperCache.getSentPushId()
-        if (sentPushId == "" || sentPushId == null) {
-            return
+        if (sentPushId != "" || sentPushId != null) {
+            val pushData = sentPushId?.let { PushData(it) }
+            if (pushData != null) {
+                createTransition(pushData)
+            }
+            Log.d(TAG, "sendTransition: pushData = $pushData")
         }
-        val pushData = PushData(sentPushId)
-        createTransition(pushData)
-        Log.d(TAG, "sendTransition: pushData = $pushData")
-
-        helperCache.saveSentPushId("")
-
+        helperCache.saveSentPushId(null)
     }
 
-    fun sendIntent(intent: Intent) {
+    /*fun sendIntent(intent: Intent) {
 
         if ("transition" == intent.getStringExtra("command")) {
             val bundle = intent.extras
@@ -67,13 +73,10 @@ class PushDevonics(context: Context, appId: String) : LifecycleEventObserver {
             createTransition(pushData)
             Log.d(TAG, "sendIntent: pushData = $pushData")
         }
-    }
+    }*/
 
-    fun openUrl() {
+    fun openUrl(context: Context) {
         val openUrl = helperCache.getOpenUrl()
-        if (openUrl == "") {
-            return
-        }
 
         if (openUrl != null) {
             val urlIntent = Intent()
@@ -83,12 +86,12 @@ class PushDevonics(context: Context, appId: String) : LifecycleEventObserver {
 
             urlIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             try {
-                myContext.startActivity(urlIntent)
+                context.startActivity(urlIntent)
             } catch (e: ActivityNotFoundException) {
                 Log.e(TAG, "ActivityNotFoundException $e")
             }
         }
-        helperCache.saveOpenUrl("")
+        helperCache.saveOpenUrl(null)
         Log.d(TAG, "openUrl = $openUrl")
     }
 
@@ -149,5 +152,39 @@ class PushDevonics(context: Context, appId: String) : LifecycleEventObserver {
             pushCache.saveTagKey(key)
             pushCache.saveTagValue(value)
         }
+    }
+
+    override fun onActivityCreated(p0: Activity, p1: Bundle?) {
+        Log.d(TAG, "onActivityCreated()")
+        startTime()
+        startSession()
+        createInternalId()
+    }
+
+    override fun onActivityStarted(p0: Activity) {
+        Log.d(TAG, "onActivityStarted()")
+    }
+
+    override fun onActivityResumed(p0: Activity) {
+        sendTransition()
+        openUrl(p0)
+        Log.d(TAG, "onActivityResumed()")
+    }
+
+    override fun onActivityPaused(p0: Activity) {
+        Log.d(TAG, "onActivityPaused()")
+    }
+
+    override fun onActivityStopped(p0: Activity) {
+        Log.d(TAG, "onActivityStopped()")
+    }
+
+    override fun onActivitySaveInstanceState(p0: Activity, p1: Bundle) {
+        Log.d(TAG, "onActivitySaveInstanceState()")
+    }
+
+    override fun onActivityDestroyed(p0: Activity) {
+        stopSession()
+        Log.d(TAG, "onActivityDestroyed()")
     }
 }

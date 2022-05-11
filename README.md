@@ -14,6 +14,8 @@ and:
         implementation 'com.google.firebase:firebase-messaging-ktx'
         implementation 'com.github.PushDevonics:push-devonics-android:latest version'
     }
+
+If you want single Activity:
     
 Kotlin:
 
@@ -23,7 +25,7 @@ MainActivity:
     
 MainActivity in onCreate():
 
-    pushDevonics = PushDevonics(applicationContext, "appId")
+    pushDevonics = PushDevonics(this, "appId")
     lifecycle.addObserver(pushDevonics)
     
     // If you need internalId
@@ -33,10 +35,10 @@ MainActivity in onCreate():
     pushDevonics.setTags("key", "value")
     
     // If you need deeplink
-    val deepLink = intent.getStringExtra("deeplink")
+    val deepLink = pushDevonics.getDeeplink()
     
     // If you need open URL in browser
-    pushDevonics.openUrl(intent.getStringExtra("open_url"))
+    pushDevonics.openUrl(this)
     
 Java:
 
@@ -46,7 +48,7 @@ MainActivity:
     
 MainActivity in onCreate():
 
-    pushDevonics = new PushDevonics(getApplicationContext(), "appId");
+    pushDevonics = new PushDevonics(this, "appId");
     getLifecycle().addObserver(pushDevonics);
         
     // If you need internalId
@@ -56,8 +58,11 @@ MainActivity in onCreate():
     pushDevonics.setTags("key", "value");
     
     // If you need deeplink
-    String deeplink = getIntent().getStringExtra("deeplink");
+    String deeplink = pushDevonics.getDeeplink();
     
     // If you need open URL in browser
-    pushDevonics.openUrl(getIntent().getStringExtra("open_url"));
+    pushDevonics.openUrl(this);
         
+If you want many Activities:
+
+You need to create a class inherited from Application and initiate it like for an Activity

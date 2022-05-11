@@ -14,7 +14,7 @@ class HelperCache(context: Context) {
         .getSharedPreferences(HELPER_CACHE, Context.MODE_PRIVATE)
         ?.edit()
 
-    fun saveSentPushId(sentPushId: String) {
+    fun saveSentPushId(sentPushId: String?) {
         ed?.putString(SENT_PUSH_ID, sentPushId)
         ed?.apply()
     }
@@ -25,7 +25,7 @@ class HelperCache(context: Context) {
             .getString(SENT_PUSH_ID, null)
     }
 
-    fun saveOpenUrl(openUrl: String) {
+    fun saveOpenUrl(openUrl: String?) {
         ed?.putString(OPEN_URL, openUrl)
         ed?.apply()
     }
