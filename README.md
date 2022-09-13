@@ -25,7 +25,7 @@ MainActivity:
     
 MainActivity in onCreate():
 
-    pushDevonics = PushDevonics(this, "appId")
+    pushDevonics = PushDevonics(this, "appId", this.activityResultRegistry)
     lifecycle.addObserver(pushDevonics)
     
     // If you need internalId
@@ -37,9 +37,6 @@ MainActivity in onCreate():
     // If you need deeplink
     val deepLink = pushDevonics.getDeeplink()
     
-    // If you need open URL in browser
-    pushDevonics.openUrl(this)
-    
 Java:
 
 MainActivity:
@@ -48,7 +45,7 @@ MainActivity:
     
 MainActivity in onCreate():
 
-    pushDevonics = new PushDevonics(this, "appId");
+    pushDevonics = new PushDevonics(this, "appId", this.getActivityResultRegistry());
     getLifecycle().addObserver(pushDevonics);
         
     // If you need internalId
@@ -59,9 +56,6 @@ MainActivity in onCreate():
     
     // If you need deeplink
     String deeplink = pushDevonics.getDeeplink();
-    
-    // If you need open URL in browser
-    pushDevonics.openUrl(this);
         
 If you want many Activities:
 
