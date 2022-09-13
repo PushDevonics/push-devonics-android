@@ -186,6 +186,7 @@ class PushDevonics(activity: Activity, appId: String, registry: ActivityResultRe
         startTime()
         startSession()
         createInternalId()
+        askNotificationPermission()
     }
 
     override fun onActivityStarted(p0: Activity) {
