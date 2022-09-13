@@ -49,7 +49,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    @SuppressLint("LongLogTag", "UnspecifiedImmutableFlag", "ServiceCast")
+    @SuppressLint("LongLogTag", "UnspecifiedImmutableFlag", "ServiceCast", "DiscouragedApi")
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         //Log.d(TAG, "onMessageReceived")
         Log.d(TAG, "onMessageReceived: remoteMessage.notification.image = ${remoteMessage.notification?.imageUrl}")
@@ -82,20 +82,17 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         intent?.putExtra("deeplink", remoteMessage.data["deeplink"]).toString()
         intent?.putExtra("open_url", remoteMessage.data["open_url"])
 
-        // get image
-        /*val largeIcon = remoteMessage
-            .notification?.imageUrl?.let { getBitmapFromUrl(it.toString()) }*/
-        /*val largeIcon = remoteMessage
-            .data["image"]?.let { getBitmapFromUrl(it) }*/
-
-        //get icon
-        /*val smallIcon = remoteMessage
-            .notification?.icon?.let { getBitmapFromUrl(it.toString()) }*/
-
         val rnds = (1..1000).random()
 
-        val pendingIntent = PendingIntent.getActivity(
-            this, rnds, intent, PendingIntent.FLAG_ONE_SHOT)
+        /*val pendingIntent = PendingIntent.getActivity(
+            this, rnds, intent, PendingIntent.FLAG_ONE_SHOT)*/
+        val pendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            PendingIntent.getActivity(
+                this, rnds, intent, PendingIntent.FLAG_IMMUTABLE)
+        } else {
+            PendingIntent.getActivity(
+                this, rnds, intent, PendingIntent.FLAG_ONE_SHOT)
+        }
         val channelId = "Default"
 
         if ( remoteMessage.notification?.imageUrl != null
