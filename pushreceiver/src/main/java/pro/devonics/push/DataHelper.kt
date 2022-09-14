@@ -29,12 +29,5 @@ class DataHelper {
             startTime = date
             //Log.d(TAG, "onCreate: startTime = $startTime")
         }
-
-        fun createTransition(pushData: PushData, service: ApiHelper, myContext: Activity) {
-            //val pushCache = PushCache()
-            //val regId = cache.getRegistrationIdFromPref()
-            val transition = registrationId?.let { service.createTransition(it, pushData, myContext) }
-            //Log.d(TAG, "createTransition: = $transition")
-        }
     }
 }

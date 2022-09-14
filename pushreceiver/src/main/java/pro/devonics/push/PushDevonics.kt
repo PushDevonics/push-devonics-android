@@ -94,12 +94,18 @@ class PushDevonics(activity: Activity, appId: String)
     }
 
     private fun sendTransition(service: ApiHelper) {
-        sentPushId = helperCache.getSentPushId()
-        if (sentPushId != null) {
-            val pushData = PushData(sentPushId!!)
-            DataHelper.createTransition(pushData, service, myContext)
-
+        val sentPushId = helperCache.getSentPushId()
+        val pushCache = PushCache()
+        val registrationId = pushCache.getRegistrationIdFromPref()
+        if (sentPushId != "" || sentPushId != null) {
+            val pushData = sentPushId?.let { PushData(it) }
+            if (pushData != null) {
+                if (registrationId != null) {
+                    service.createTransition(registrationId, pushData)
+                }
+            }
         }
+        helperCache.saveSentPushId(null)
     }
 
     private fun openUrl(context: Context) {

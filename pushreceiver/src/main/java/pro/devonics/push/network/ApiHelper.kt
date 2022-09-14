@@ -146,17 +146,12 @@ class ApiHelper(private val apiService: ApiService) {
         return null
     }
 
-    fun createTransition(registrationId: String, pushData: PushData, myContext: Activity): Status? {
+    fun createTransition(registrationId: String, pushData: PushData): Status? {
         val call = apiService.createTransition(registrationId, pushData)
-        val helperCache = HelperCache(myContext)
         //Log.d(TAG, "createTransition: registrationId = $registrationId")
         call.enqueue(
             object : Callback<Status> {
                 override fun onResponse(call: Call<Status>, response: Response<Status>) {
-                    if (response.isSuccessful) {
-                        helperCache.saveSentPushId(null)
-                        //Log.d(TAG, "createTransition: pushData = $pushData")
-                    }
                 }
 
                 override fun onFailure(call: Call<Status>, t: Throwable) {
