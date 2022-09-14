@@ -27,7 +27,7 @@ private const val TAG = "PushDevonics"
 private const val REGISTRY_KEY = "Notification Permission"
 private const val PERMISSIONS_REQUEST_CODE = 2
 
-class PushDevonics(activity: Activity, appId: String, registry: ActivityResultRegistry)
+class PushDevonics(activity: Activity, appId: String)
     : LifecycleEventObserver, Application.ActivityLifecycleCallbacks {
 
     private val service = ApiHelper(RetrofitBuilder.apiService)
