@@ -1,10 +1,8 @@
 package pro.devonics.push
 
+import android.app.Activity
 import pro.devonics.push.model.PushData
-import pro.devonics.push.model.Tag
-import pro.devonics.push.model.TimeData
 import pro.devonics.push.network.ApiHelper
-import pro.devonics.push.network.RetrofitBuilder
 import java.util.*
 
 private const val TAG = "Repository"
@@ -32,10 +30,10 @@ class DataHelper {
             //Log.d(TAG, "onCreate: startTime = $startTime")
         }
 
-        fun createTransition(pushData: PushData, service: ApiHelper) {
+        fun createTransition(pushData: PushData, service: ApiHelper, myContext: Activity) {
             //val pushCache = PushCache()
             //val regId = cache.getRegistrationIdFromPref()
-            val transition = registrationId?.let { service.createTransition(it, pushData) }
+            val transition = registrationId?.let { service.createTransition(it, pushData, myContext) }
             //Log.d(TAG, "createTransition: = $transition")
         }
     }

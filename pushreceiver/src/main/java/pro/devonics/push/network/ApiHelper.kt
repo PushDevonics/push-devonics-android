@@ -1,6 +1,8 @@
 package pro.devonics.push.network
 
+import android.app.Activity
 import android.util.Log
+import pro.devonics.push.HelperCache
 import pro.devonics.push.PushCache
 import pro.devonics.push.model.*
 import retrofit2.Call
@@ -144,12 +146,17 @@ class ApiHelper(private val apiService: ApiService) {
         return null
     }
 
-    fun createTransition(registrationId: String, pushData: PushData): Status? {
+    fun createTransition(registrationId: String, pushData: PushData, myContext: Activity): Status? {
         val call = apiService.createTransition(registrationId, pushData)
+        val helperCache = HelperCache(myContext)
         //Log.d(TAG, "createTransition: registrationId = $registrationId")
         call.enqueue(
             object : Callback<Status> {
                 override fun onResponse(call: Call<Status>, response: Response<Status>) {
+                    if (response.isSuccessful) {
+                        helperCache.saveSentPushId(null)
+                        //Log.d(TAG, "createTransition: pushData = $pushData")
+                    }
                 }
 
                 override fun onFailure(call: Call<Status>, t: Throwable) {

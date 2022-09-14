@@ -25,7 +25,7 @@ MainActivity:
     
 MainActivity in onCreate():
 
-    pushDevonics = PushDevonics(this, "appId", this.activityResultRegistry)
+    pushDevonics = PushDevonics(this, "appId")
     lifecycle.addObserver(pushDevonics)
     
     // If you need internalId
@@ -45,7 +45,7 @@ MainActivity:
     
 MainActivity in onCreate():
 
-    pushDevonics = new PushDevonics(this, "appId", this.getActivityResultRegistry());
+    pushDevonics = new PushDevonics(this, "appId");
     getLifecycle().addObserver(pushDevonics);
         
     // If you need internalId
