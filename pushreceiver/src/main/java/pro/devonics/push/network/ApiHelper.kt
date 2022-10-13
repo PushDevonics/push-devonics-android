@@ -28,7 +28,7 @@ class ApiHelper(private val apiService: ApiService) {
         return null
     }
 
-    fun createPush(pushUser: PushUser, appId: String): Status? {
+    fun createPush(pushUser: PushUser): Status? {
         val call = apiService.createPush(pushUser)
         call.enqueue(
             object : Callback<Status> {
@@ -39,6 +39,7 @@ class ApiHelper(private val apiService: ApiService) {
                     if (response.isSuccessful) {
                         pushCache.saveSubscribeStatus(true)
                         val registrationId = pushUser.getRegistrationId()
+                        val appId = pushUser.getAppId()
                         createSession(registrationId, appId)
                         //Log.d(TAG, "createPush.onResponse: isSuccessful")
                     } else {
@@ -88,7 +89,7 @@ class ApiHelper(private val apiService: ApiService) {
                                 AppContextKeeper.getContext(),
                                 internalId
                             )
-                            createPush(pushUser, appId)
+                            createPush(pushUser)
                             //Log.d(TAG, "createSession: pushUser $pushUser")
                         }
                     }

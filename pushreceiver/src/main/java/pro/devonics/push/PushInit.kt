@@ -45,7 +45,7 @@ class PushInit {
                                         registrationId, appId, appContext, it
                                     )
                                 }
-                                pushUser?.let { service.createPush(it, appId) }
+                                pushUser?.let { service.createPush(it) }
                             }
                         }
                         Log.d(TAG, "Device registered, push token = $registrationId")
