@@ -52,10 +52,10 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     @SuppressLint("LongLogTag", "UnspecifiedImmutableFlag", "ServiceCast", "DiscouragedApi")
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         //Log.d(TAG, "onMessageReceived")
-        Log.d(TAG, "onMessageReceived: remoteMessage.notification.image = ${remoteMessage.notification?.imageUrl}")
-        Log.d(TAG, "onMessageReceived: remoteMessage.notification.icon = ${remoteMessage.notification?.icon}")
+        //Log.d(TAG, "onMessageReceived: remoteMessage.notification.image = ${remoteMessage.notification?.imageUrl}")
+        //Log.d(TAG, "onMessageReceived: remoteMessage.notification.icon = ${remoteMessage.notification?.icon}")
 
-        Log.d(TAG, "onMessageReceived: remoteMessage.data = ${remoteMessage.data}")
+        //Log.d(TAG, "onMessageReceived: remoteMessage.data = ${remoteMessage.data}")
         val helperCache = HelperCache(applicationContext)
         val sentPushId = remoteMessage.data["sent_push_id"].toString()
         val deeplink = remoteMessage.data["deeplink"].toString()
@@ -63,6 +63,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         helperCache.saveSentPushId(sentPushId)
         helperCache.saveDeeplink(deeplink)
         helperCache.saveOpenUrl(openUrl)
+        helperCache.saveTransition(false)
         Log.d(TAG, "onMessageReceived sentPushId: $sentPushId")
         Log.d(TAG, "onMessageReceived deeplink: $deeplink")
         Log.d(TAG, "onMessageReceived openUrl: $openUrl")
@@ -74,7 +75,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         //Log.d(TAG, "onMessageReceived packageName: $packageName")
 
         val intent = packageManager.getLaunchIntentForPackage(packageName)
-        intent?.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
+        intent?.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
+        //intent?.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
         intent?.putExtra("command", "transition")
 
         // Send pushData to intent
@@ -84,8 +86,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
         val rnds = (1..1000).random()
 
-        /*val pendingIntent = PendingIntent.getActivity(
-            this, rnds, intent, PendingIntent.FLAG_ONE_SHOT)*/
         val pendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             PendingIntent.getActivity(
                 this, rnds, intent, PendingIntent.FLAG_IMMUTABLE)
