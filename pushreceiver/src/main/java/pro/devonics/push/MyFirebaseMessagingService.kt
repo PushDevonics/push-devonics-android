@@ -64,9 +64,9 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         helperCache.saveDeeplink(deeplink)
         helperCache.saveOpenUrl(openUrl)
         helperCache.saveTransition(false)
-        Log.d(TAG, "onMessageReceived sentPushId: $sentPushId")
-        Log.d(TAG, "onMessageReceived deeplink: $deeplink")
-        Log.d(TAG, "onMessageReceived openUrl: $openUrl")
+        //Log.d(TAG, "onMessageReceived sentPushId: $sentPushId")
+        //Log.d(TAG, "onMessageReceived deeplink: $deeplink")
+        //Log.d(TAG, "onMessageReceived openUrl: $openUrl")
 
         val packageName = applicationContext.packageName
         val mLauncher = "ic_launcher"

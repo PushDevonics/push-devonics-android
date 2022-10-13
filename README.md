@@ -10,8 +10,6 @@ Add it to you settings.gradle in repositories:
 and:
 
     dependencies {
-        implementation platform('com.google.firebase:firebase-bom:28.3.1')
-        implementation 'com.google.firebase:firebase-messaging-ktx'
         implementation 'com.github.PushDevonics:push-devonics-android:latest version'
     }
 

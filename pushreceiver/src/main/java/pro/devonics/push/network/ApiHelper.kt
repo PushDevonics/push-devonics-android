@@ -40,7 +40,7 @@ class ApiHelper(private val apiService: ApiService) {
                         pushCache.saveSubscribeStatus(true)
                         val registrationId = pushUser.getRegistrationId()
                         createSession(registrationId, appId)
-                        Log.d(TAG, "createPush.onResponse: isSuccessful")
+                        //Log.d(TAG, "createPush.onResponse: isSuccessful")
                     } else {
                         pushCache.saveSubscribeStatus(false)
                     }
@@ -73,13 +73,13 @@ class ApiHelper(private val apiService: ApiService) {
                                 }
                             }
                         }
-                        Log.d(TAG, "createSession.onResponse: isSuccessful")
+                        //Log.d(TAG, "createSession.onResponse: isSuccessful")
                     } else {
                         val subscribe = pushCache.getSubscribeStatusFromPref()
                         val internalId = pushCache.getInternalIdFromPref()
 
-                        Log.d(TAG, "createSession: subscribe $subscribe")
-                        Log.d(TAG, "createSession: internalId $internalId")
+                        //Log.d(TAG, "createSession: subscribe $subscribe")
+                        //Log.d(TAG, "createSession: internalId $internalId")
 
                         if (subscribe == true && internalId != null) {
                             val pushUser = PushInit.setPushUser(
@@ -89,8 +89,7 @@ class ApiHelper(private val apiService: ApiService) {
                                 internalId
                             )
                             createPush(pushUser, appId)
-
-                            Log.d(TAG, "createSession: pushUser $pushUser")
+                            //Log.d(TAG, "createSession: pushUser $pushUser")
                         }
                     }
                     //Log.d(TAG, "createSession.onResponse: response = $response")
@@ -128,7 +127,7 @@ class ApiHelper(private val apiService: ApiService) {
 
         val call = apiService.saveCustomParams(registrationId, tag)
 
-        Log.d(TAG, "saveCustomTag: tag = $tag")
+        //Log.d(TAG, "saveCustomTag: tag = $tag")
 
         call.enqueue(
            object : Callback<Status> {
