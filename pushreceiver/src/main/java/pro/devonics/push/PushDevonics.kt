@@ -38,23 +38,25 @@ class PushDevonics(activity: Activity, appId: String)
         startTime()
         startSession(appId)
         createInternalId()
-        //parseIntent(myContext)
-        //openUrl(activity)
     }
 
     override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
-        Log.d(TAG, "onStateChanged: source = $source")
         when (event) {
             Lifecycle.Event.ON_CREATE -> {
                 askNotificationPermission()
-            }
-            Lifecycle.Event.ON_START -> Log.d(TAG, "ON_START: ")
-            Lifecycle.Event.ON_RESUME -> {
                 sendTransition(service)
-                openUrl()
+                Log.d(TAG, "ON_CREATE:")
             }
-            Lifecycle.Event.ON_PAUSE -> Log.d(TAG, "ON_PAUSE: ")
-            Lifecycle.Event.ON_STOP -> stopSession()//Log.d(TAG, "onStop: ")
+            Lifecycle.Event.ON_START -> Log.d(TAG, "ON_START:")
+            Lifecycle.Event.ON_RESUME -> {
+                openUrl()
+                Log.d(TAG, "ON_RESUME:")
+            }
+            Lifecycle.Event.ON_PAUSE -> Log.d(TAG, "ON_PAUSE:")
+            Lifecycle.Event.ON_STOP -> {
+                stopSession()
+                Log.d(TAG, "ON_STOP:")
+            }
             Lifecycle.Event.ON_DESTROY -> Log.d(TAG, "onDestroy: ")
             else -> {}
         }
@@ -91,6 +93,7 @@ class PushDevonics(activity: Activity, appId: String)
             val pushData = sentPushId?.let { PushData(it) }
             if (pushData != null && registrationId != null) {
                 service.createTransition(registrationId, pushData)
+                helperCache.saveTransition(true)
             }
         }
         helperCache.saveSentPushId(null)
