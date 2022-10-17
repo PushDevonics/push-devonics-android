@@ -12,8 +12,6 @@ and:
     dependencies {
         implementation 'com.github.PushDevonics:push-devonics-android:latest version'
     }
-
-If you want single Activity:
     
 Kotlin:
 
