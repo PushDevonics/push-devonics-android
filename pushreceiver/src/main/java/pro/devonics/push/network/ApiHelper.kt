@@ -1,6 +1,5 @@
 package pro.devonics.push.network
 
-import android.util.Log
 import pro.devonics.push.AppContextKeeper
 import pro.devonics.push.PushCache
 import pro.devonics.push.PushInit
@@ -76,8 +75,8 @@ class ApiHelper(private val apiService: ApiService) {
                         }
                         //Log.d(TAG, "createSession.onResponse: isSuccessful")
                     } else {
-                        val subscribe = pushCache.getSubscribeStatusFromPref()
-                        val internalId = pushCache.getInternalIdFromPref()
+                        val subscribe = pushCache.getSubscribeStatus()
+                        val internalId = pushCache.getInternalId()
 
                         //Log.d(TAG, "createSession: subscribe $subscribe")
                         //Log.d(TAG, "createSession: internalId $internalId")

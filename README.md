@@ -54,12 +54,3 @@ MainActivity in onCreate():
     
     // If you need deeplink
     String deeplink = pushDevonics.getDeeplink();
-        
-If you want many Activities:
-
-You need to create a class inherited from Application and initiate it like for an Activity
-
-in onCreate():
-
-    pushDevonics = new PushDevonics(this, "appId");
-    registerActivityLifecycleCallbacks(pushDevonics);

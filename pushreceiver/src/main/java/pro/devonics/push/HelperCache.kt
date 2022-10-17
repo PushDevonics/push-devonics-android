@@ -52,7 +52,7 @@ class HelperCache(context: Context) {
         ed?.apply()
     }
 
-    fun getTransitionSt(): Boolean? {
+    fun getTransition(): Boolean? {
         return mContext
             .getSharedPreferences(HELPER_CACHE, Context.MODE_PRIVATE)
             ?.getBoolean(TRANSITION_ST, false)

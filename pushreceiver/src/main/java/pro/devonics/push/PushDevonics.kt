@@ -25,7 +25,7 @@ private const val TAG = "PushDevonics"
 private const val PERMISSIONS_REQUEST_CODE = 2
 
 class PushDevonics(activity: Activity, appId: String)
-    : LifecycleEventObserver, Application.ActivityLifecycleCallbacks {
+    : LifecycleEventObserver {
 
     private val service = ApiHelper(RetrofitBuilder.apiService)
     private val helperCache = HelperCache(activity)
@@ -87,8 +87,8 @@ class PushDevonics(activity: Activity, appId: String)
     private fun sendTransition(service: ApiHelper) {
         sentPushId = helperCache.getSentPushId()
         val pushCache = PushCache()
-        val registrationId = pushCache.getRegistrationIdFromPref()
-        val transition = helperCache.getTransitionSt()
+        val registrationId = pushCache.getRegistrationId()
+        val transition = helperCache.getTransition()
         if (transition == false && sentPushId != null) {
             val pushData = sentPushId?.let { PushData(it) }
             if (pushData != null && registrationId != null) {
@@ -128,7 +128,7 @@ class PushDevonics(activity: Activity, appId: String)
     private fun createInternalId() {
         val pushCache = PushCache()
 
-        var internalId = pushCache.getInternalIdFromPref()
+        var internalId = pushCache.getInternalId()
         if (internalId == null) {
             internalId = UUID.randomUUID().toString()
             pushCache.saveInternalId(internalId)
@@ -137,14 +137,14 @@ class PushDevonics(activity: Activity, appId: String)
 
     fun getInternalId(): String? {
         val pushCache = PushCache()
-        return pushCache.getInternalIdFromPref()
+        return pushCache.getInternalId()
     }
 
     private fun startSession(appId: String) {
         Log.d(TAG, "startSession: ")
         val pushCache = PushCache()
-        val registrationId = pushCache.getRegistrationIdFromPref()
-        if (pushCache.getSubscribeStatusFromPref() == true) {
+        val registrationId = pushCache.getRegistrationId()
+        if (pushCache.getSubscribeStatus() == true) {
             val session = registrationId?.let { service.createSession(it, appId) }
             //Log.d(TAG, "subscribeStatus = ${pushCache.getSubscribeStatusFromPref()}")
 
@@ -154,7 +154,7 @@ class PushDevonics(activity: Activity, appId: String)
     private fun stopSession() {
         val duration = DataHelper.getDuration()
         val pushCache = PushCache()
-        val regId = pushCache.getRegistrationIdFromPref()
+        val regId = pushCache.getRegistrationId()
         if (regId != null) {
             val timeData = TimeData(duration)
             service.sendTimeStatistic(regId, timeData)
@@ -175,38 +175,5 @@ class PushDevonics(activity: Activity, appId: String)
             pushCache.saveTagKey(key)
             pushCache.saveTagValue(value)
         }
-    }
-
-    override fun onActivityCreated(p0: Activity, p1: Bundle?) {
-        Log.d(TAG, "onActivityCreated()")
-        askNotificationPermission()
-    }
-
-    override fun onActivityStarted(p0: Activity) {
-        Log.d(TAG, "onActivityStarted()")
-    }
-
-    override fun onActivityResumed(p0: Activity) {
-        sendTransition(service)
-        openUrl()
-        Log.d(TAG, "onActivityResumed()")
-    }
-
-    override fun onActivityPaused(p0: Activity) {
-        Log.d(TAG, "onActivityPaused()")
-    }
-
-    override fun onActivityStopped(p0: Activity) {
-        stopSession()
-        Log.d(TAG, "onActivityStopped()")
-    }
-
-    override fun onActivitySaveInstanceState(p0: Activity, p1: Bundle) {
-        Log.d(TAG, "onActivitySaveInstanceState()")
-    }
-
-    override fun onActivityDestroyed(p0: Activity) {
-
-        Log.d(TAG, "onActivityDestroyed()")
     }
 }

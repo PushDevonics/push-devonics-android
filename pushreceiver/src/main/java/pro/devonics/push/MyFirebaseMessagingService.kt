@@ -77,7 +77,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val intent = packageManager.getLaunchIntentForPackage(packageName)
         intent?.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
         //intent?.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
-        intent?.putExtra("command", "transition")
+        //intent?.putExtra("command", "transition")
 
         // Send pushData to intent
         intent?.putExtra("sent_push_id", remoteMessage.data["sent_push_id"])
@@ -221,6 +221,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val pushCache = PushCache()
 
         service.updateRegistrationId(p0)
-        pushCache.saveRegistrationIdPref(p0)
+        pushCache.saveRegistrationId(p0)
     }
 }

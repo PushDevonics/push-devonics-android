@@ -35,10 +35,10 @@ class PushInit {
                     try {
                         val registrationId = getToken()
                         //val regId = pushCache.getRegistrationIdFromPref()
-                        val internalId = pushCache.getInternalIdFromPref()
-                        val status = pushCache.getSubscribeStatusFromPref()
+                        val internalId = pushCache.getInternalId()
+                        val status = pushCache.getSubscribeStatus()
                         if (registrationId != null) {
-                            pushCache.saveRegistrationIdPref(registrationId)
+                            pushCache.saveRegistrationId(registrationId)
                             if (status == false) {
                                 val pushUser = internalId?.let {
                                     setPushUser(
