@@ -1,5 +1,7 @@
 [![Release](https://jitpack.io/v/PushDevonics/push-devonics-android.svg)](https://jitpack.io/#PushDevonics/push-devonics-android)
 
+Attention to use this library, you must update the SDK to version 33
+
 Add it to you settings.gradle in repositories:
 
     repositories {
