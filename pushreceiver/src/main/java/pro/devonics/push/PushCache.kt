@@ -66,6 +66,7 @@ class PushCache {
         ed?.putBoolean(SUBSCRIBE_STATUS, status)
         ed?.apply()
     }
+
     fun getSubscribeStatus(): Boolean? {
         return appContext
             .getSharedPreferences(PUSH_CACHE, Context.MODE_PRIVATE)

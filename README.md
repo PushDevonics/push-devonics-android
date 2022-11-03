@@ -7,7 +7,7 @@ Add it to you settings.gradle in repositories:
             mavenCentral()
             maven { url 'https://jitpack.io' }
     }
-and:
+and add it to you build.gradle(app):
 
     dependencies {
         implementation 'com.github.PushDevonics:push-devonics-android:latest version'
@@ -32,6 +32,10 @@ MainActivity in onCreate():
     
     // If you need deeplink
     val deepLink = pushDevonics.getDeeplink()
+
+    // If you need set level logging network(BASIC, BODY, HEADERS, NONE),
+    // by default level BASIC:
+    pushDevonics.setLogLevelHttp(Level.BODY)
     
 Java:
 
@@ -52,3 +56,7 @@ MainActivity in onCreate():
     
     // If you need deeplink
     String deeplink = pushDevonics.getDeeplink();
+
+    // If you need set level logging network(BASIC, BODY, HEADERS, NONE),
+    // by default level BASIC:
+    pushDevonics.setLogLevelHttp(Level.BODY);

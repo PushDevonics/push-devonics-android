@@ -13,6 +13,8 @@ import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.*
+import kotlinx.coroutines.coroutineScope
+import okhttp3.logging.HttpLoggingInterceptor
 import pro.devonics.push.DataHelper.Companion.startTime
 import pro.devonics.push.model.PushData
 import pro.devonics.push.model.TimeData
@@ -24,8 +26,11 @@ import java.util.*
 private const val TAG = "PushDevonics"
 private const val PERMISSIONS_REQUEST_CODE = 2
 
-class PushDevonics(activity: Activity, appId: String)
-    : LifecycleEventObserver {
+enum class Level {
+    BASIC, BODY, HEADERS, NONE
+}
+
+class PushDevonics(activity: Activity, appId: String) : LifecycleEventObserver {
 
     private val service = ApiHelper(RetrofitBuilder.apiService)
     private val helperCache = HelperCache(activity)
@@ -33,6 +38,7 @@ class PushDevonics(activity: Activity, appId: String)
     private var sentPushId: String? = null
 
     init {
+        setLogLevelHttp(Level.BASIC)
         AppContextKeeper.setContext(activity)
         PushInit.run(appId, service)
         startTime()
@@ -62,6 +68,29 @@ class PushDevonics(activity: Activity, appId: String)
         }
     }
 
+    fun setLogLevelHttp(level: Level) {
+        RetrofitBuilder.loggingInterceptor.apply {
+            when (level) {
+                Level.BASIC -> {
+                    this.setLevel(HttpLoggingInterceptor.Level.BASIC)
+                    Log.d(TAG, "setLogLevelHttp: BASIC")
+                }
+                Level.HEADERS -> {
+                    Log.d(TAG, "setLogLevelHttp: HEADERS")
+                    this.setLevel(HttpLoggingInterceptor.Level.HEADERS)
+                }
+                Level.BODY -> {
+                    Log.d(TAG, "setLogLevelHttp: BODY")
+                    this.setLevel(HttpLoggingInterceptor.Level.BODY)
+                }
+                Level.NONE -> {
+                    this.setLevel(HttpLoggingInterceptor.Level.NONE)
+                    Log.d(TAG, "setLogLevelHttp: NONE")
+                }
+            }
+        }
+    }
+
     private fun askNotificationPermission() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -74,7 +103,7 @@ class PushDevonics(activity: Activity, appId: String)
                     Manifest.permission.POST_NOTIFICATIONS
                 )
             ) {
-                Log.v(TAG, "askNotificationPermission: ")
+                Log.d(TAG, "askNotificationPermission: ")
             } else {
                 myContext.requestPermissions(
                     arrayOf(Manifest.permission.POST_NOTIFICATIONS),
