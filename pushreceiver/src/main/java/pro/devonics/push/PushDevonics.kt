@@ -2,18 +2,17 @@ package pro.devonics.push
 
 import android.Manifest
 import android.app.Activity
-import android.app.Application
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
-import android.os.Bundle
 import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.*
-import kotlinx.coroutines.coroutineScope
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.LifecycleOwner
 import okhttp3.logging.HttpLoggingInterceptor
 import pro.devonics.push.DataHelper.Companion.startTime
 import pro.devonics.push.model.PushData
@@ -36,25 +35,66 @@ class PushDevonics(activity: Activity, appId: String) : LifecycleEventObserver {
     private val helperCache = HelperCache(activity)
     private val myContext = activity
     private var sentPushId: String? = null
+    private val mAppId = appId
 
     init {
         setLogLevelHttp(Level.BASIC)
         AppContextKeeper.setContext(activity)
-        PushInit.run(appId, service)
-        startTime()
-        startSession(appId)
         createInternalId()
+    }
+
+    private fun checkPermission(appId: String, activity: Activity) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(activity, Manifest.permission.POST_NOTIFICATIONS) ==
+                PackageManager.PERMISSION_GRANTED
+            ) {
+                // allow permission
+                PushInit.run(appId, service)
+                startTime()
+                startSession(appId)
+                Log.d(TAG, "Allow permission")
+                // FCM SDK (and your app) can post notifications.
+            } else if (ActivityCompat.shouldShowRequestPermissionRationale(
+                    activity,
+                    Manifest.permission.POST_NOTIFICATIONS
+                )
+            ) {
+                // permission denied
+                Log.d(TAG, "Permission denied")
+            } else {
+                // ask permission
+                Log.d(TAG, "Ask permission")
+                activity.requestPermissions(
+                    arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                    PERMISSIONS_REQUEST_CODE
+                )
+                if (ContextCompat.checkSelfPermission(activity, Manifest.permission.POST_NOTIFICATIONS) ==
+                    PackageManager.PERMISSION_GRANTED
+                ) {
+                    PushInit.run(appId, service)
+                    startTime()
+                    startSession(appId)
+                }
+            }
+        }
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            Log.d(TAG, "Ask permission for API < TIRAMISU")
+            PushInit.run(appId, service)
+            startTime()
+            startSession(appId)
+        }
     }
 
     override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
         when (event) {
             Lifecycle.Event.ON_CREATE -> {
-                askNotificationPermission()
+
                 sendTransition(service)
                 Log.d(TAG, "ON_CREATE:")
             }
             Lifecycle.Event.ON_START -> Log.d(TAG, "ON_START:")
             Lifecycle.Event.ON_RESUME -> {
+                checkPermission(mAppId, myContext)
                 openUrl()
                 Log.d(TAG, "ON_RESUME:")
             }
@@ -87,28 +127,6 @@ class PushDevonics(activity: Activity, appId: String) : LifecycleEventObserver {
                     this.setLevel(HttpLoggingInterceptor.Level.NONE)
                     Log.d(TAG, "setLogLevelHttp: NONE")
                 }
-            }
-        }
-    }
-
-    private fun askNotificationPermission() {
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(myContext, Manifest.permission.POST_NOTIFICATIONS) ==
-                PackageManager.PERMISSION_GRANTED
-            ) {
-                // FCM SDK (and your app) can post notifications.
-            } else if (ActivityCompat.shouldShowRequestPermissionRationale(
-                    myContext,
-                    Manifest.permission.POST_NOTIFICATIONS
-                )
-            ) {
-                Log.d(TAG, "askNotificationPermission: ")
-            } else {
-                myContext.requestPermissions(
-                    arrayOf(Manifest.permission.POST_NOTIFICATIONS),
-                    PERMISSIONS_REQUEST_CODE
-                )
             }
         }
     }
